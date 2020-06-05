@@ -14,6 +14,7 @@ public:
 	StreamingMedia();
 	void on();
 	void off();
+	int mainMenu();
 	void loadInfo();
 	void search();
 };
@@ -22,50 +23,56 @@ StreamingMedia::StreamingMedia(){
 }
 
 void StreamingMedia::on(){
-	cout << "Welcome" << endl;
-	cout << "Choose one of the next options:" << endl;
+	int userChoose = 0;
 
-	int eleccion = 0;
+	cout << "WELCOME" << endl;
 
-	cout << endl << "-----MENÚ-----" << endl << "Escoge una opción." << endl << "1. Ver vuelos" << endl << "2. Agregar vuelo" << endl
-	<< "3. Mostrar vuelos de una fecha específica" << endl << "4. Actualizar vuelo retrasado" << endl << "5. Cargar vuelos desde archivo"
-	<< endl << "6. Guardar vuelos en archivo" << endl << "0. Salir" << endl;
+	userChoose = mainMenu();
 
-	cin >> eleccion;
-
-	//return eleccion;
-
-	eleccionUsuario = menuPrincipal();
-
-	while (eleccionUsuario>0&&eleccionUsuario<7) {
-		if (eleccionUsuario == 1) {
-			verVuelo(datosVuelos);
+	while (userChoose>0&&userChoose<7) {
+		if (userChoose == 1) {
+			//LOAD FUNCTION;
 		} else {
-			if (eleccionUsuario == 2) {
-				datosVuelos = agregarVuelo(datosVuelos);
+			if (userChoose == 2) {
+				//SHOW CATALOGUE;
 			} else {
-				if (eleccionUsuario == 3) {
-					mostrarVuelo(datosVuelos);
+				if (userChoose == 3) {
+					//SHOW SERIES;
 				} else {
-					if (eleccionUsuario == 4) {
-						datosVuelos = actualizarVuelo(datosVuelos);
+					if (userChoose == 4) {
+						//SHOW MOVIES;
 					} else {
-						if (eleccionUsuario == 5) {
-							datosVuelos = cargarVuelo(datosVuelos);
+						if (userChoose == 5) {
+							//FILTERS;
 						} else {
-							if (eleccionUsuario == 6)
-								guardarVuelo(datosVuelos);
+							if (userChoose == 6)
+								//RATE;
 						}
 					}
 				}
 			}
 		}
-		eleccionUsuario = menuPrincipal();
+		userChoose = mainMenu();
 	}
+
+	off();
 }
 
 void StreamingMedia::off(){
+	cout << "We hope you have enjoyed GeekXGeek." << endl;
+	cout << "Turning off..." << endl;
+}
 
+int StreamingMedia::mainMenu(){
+	int choose = 0;
+
+	cout << endl << "-----MENU-----" << endl << "Choose one of the next options:" << endl << "1. Load file" 
+	<< endl << "2. Show me all the videos" << endl << "3. Show me series" << endl << "4. Show me movies" 
+	<< endl << "5. Filter your search (Score, Genre)" << endl << "6. Rate a video" << endl << "0. Exit" << endl;
+
+	cin >> choose;
+
+	return choose;	
 }
 
 void StreamingMedia::loadInfo(){

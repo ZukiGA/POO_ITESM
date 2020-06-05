@@ -20,7 +20,8 @@ StreamingMedia::StreamingMedia(){
 }
 
 void StreamingMedia::on(){
-
+	cout << "Welcome" << endl;
+	cout << "Choose one of the next options:" << endl;
 }
 
 void StreamingMedia::off(){
@@ -32,5 +33,5 @@ void StreamingMedia::loadInfo(){
 }
 
 void StreamingMedia::search(){
-	
+
 }

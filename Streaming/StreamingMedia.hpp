@@ -5,6 +5,8 @@ Creation date: 06/04/20
 Modification date: 06/04/20
 File: StreamingMedia.h
 */
+#include <bits/stdc++.h>
+using namespace std;
 
 class StreamingMedia {
 private:

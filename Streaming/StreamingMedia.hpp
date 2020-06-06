@@ -5,14 +5,26 @@ Creation date: 06/04/20
 Modification date: 07/04/20
 File: StreamingMedia.hpp
 */
+
 #include <bits/stdc++.h>
 #include "SearchEngine.hpp"
 #include "Multimedia.hpp"
+#ifndef MOVIE_H_INCLUDED
+#define MOVIE_H_INCLUDED
+#ifndef SERIE_H_INCLUDED
+#define SERIE_H_INCLUDED
+#ifndef EPISODE_H_INCLUDED
+#define EPISODE_H_INCLUDED
+#ifndef VIDEO_H_INCLUDED
+#define VIDEO_H_INCLUDED
+
+
+
 
 using namespace std;
 
 class StreamingMedia {
- 	unordered_map <int, Multimedia> listOfContent;
+ 	unordered_map <int, Multimedia*> listOfContent;
 public:
 	StreamingMedia();
 	void on();
@@ -81,7 +93,7 @@ int StreamingMedia::mainMenu(){
 }
 
 void StreamingMedia::loadInfo(){
-	string fileName = "", line = "-1", numberID="";
+	string fileName = "", line = "-1", numberID="", pastmp = "";
 	vector <string> compiled;
 	Multimedia myMultimediaLoaded, *myMultimediaLoaded2;
 	int numberOfMultimediaInFile = 0;
@@ -116,9 +128,45 @@ void StreamingMedia::loadInfo(){
 
 				//numberOfMultimediaInFile = stoi(compiled[0]);
 
-			for (int h=0; h<numberOfMultimediaInFile; h++) {
-
+			for (int h=0; h<compiled.size(); h++) {
+        //cout << "Checkpoint3" << endl;
 				size_t pos = compiled[h].find("	");
+        string tmp = compiled[h].substr(0,pos);
+        string str = compiled[h].substr(pos+1,compiled[h].size());
+        tmp.erase(remove_if(tmp.begin(), tmp.end(), ::isspace),tmp.end());
+
+        size_t pos2 = str.find(" ");
+        string tmp2 = str.substr(0,pos2);
+        string str2 = str.substr(pos2+1,str.size());
+        tmp2.erase(remove_if(tmp2.begin(), tmp2.end(), ::isspace),tmp2.end());
+
+        size_t pos3 = str2.find(" ");
+        string tmp3 = str2.substr(0,pos3);
+        string str3 = str2.substr(pos3+1,str2.size());
+        tmp3.erase(remove_if(tmp3.begin(), tmp3.end(), ::isspace),tmp3.end());
+
+        size_t pos4 = str3.find(" ");
+        string tmp4 = str3.substr(0,pos4);
+        string str4 = str3.substr(pos4+1,str3.size());
+        tmp4.erase(remove_if(tmp4.begin(), tmp4.end(), ::isspace),tmp4.end());
+
+        size_t pos5 = str4.find(" ");
+        string tmp5 = str4.substr(0,pos5);
+        string str5 = str4.substr(pos5+1,str4.size());
+        tmp5.erase(remove_if(tmp5.begin(), tmp5.end(), ::isspace),tmp5.end());
+        cout << tmp << " "<< tmp2 <<" "<< tmp3 <<" "<< tmp4 <<" "<< tmp5 << endl;
+        //if (tmp3=="na"){
+        //  Serie *S = new Serie();
+        //  listOfContent[stoi(tmp)] = S;
+        //} else if (tmp==pastmp){
+        //  Episode *E = new Episode();
+        //  listOfContent[stoi(tmp)]->setEpisode(S);
+        //} else {
+        //  Movie *M = new Movie();
+        //  listOfContent[stoi(tmp)] = M;
+        //}
+        pastmp = tmp;
+
 			//////Los datos en determinadas posiciones en el vector se van asignado a un objeto temporal.
 			//	//	myMultimediaLoaded.setOrigen(compiled[h*14+1]);
 			//	//	myMultimediaLoaded.setDestino(compiled[h*14+2]);
@@ -154,3 +202,7 @@ void StreamingMedia::loadInfo(){
 void StreamingMedia::search(){
 
 }
+#endif
+#endif
+#endif
+#endif

@@ -10,6 +10,6 @@ class Multimedia {
 public:
   Multimedia();
 };
-Multimedia::Multimedia{
+Multimedia::Multimedia(){
 
 };

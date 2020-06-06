@@ -6,20 +6,19 @@ Modification date: 07/04/20
 File: Video.hpp
 */
 #include <bits/stdc++.h>
-#include "Time.h"
+
 
 using namespace std;
 
 class Video{
 protected:
-  long ID;
-  string name, genre;
-  Time duration;
+  int ID;
+  string name, genre, duration;
 public:
-  Video(long, name, genre, duration);
+  Video(int, string, string, string);
 };
 
-Video::Video(long id, string na, string gen, Time dura){
+Video::Video(int id, string na, string gen, string dura){
   ID = id;
   name = na;
   genre = gen;

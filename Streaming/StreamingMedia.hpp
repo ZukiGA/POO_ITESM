@@ -9,14 +9,7 @@ File: StreamingMedia.hpp
 #include <bits/stdc++.h>
 #include "SearchEngine.hpp"
 #include "Multimedia.hpp"
-//#ifndef MOVIE_H_INCLUDED
-//#define MOVIE_H_INCLUDED
-//#ifndef SERIE_H_INCLUDED
-//#define SERIE_H_INCLUDED
-//#ifndef EPISODE_H_INCLUDED
-//#define EPISODE_H_INCLUDED
-//#ifndef VIDEO_H_INCLUDED
-//#define VIDEO_H_INCLUDED
+
 
 
 
@@ -31,7 +24,7 @@ public:
 	void off();
 	int mainMenu();
 	void loadInfo();
-	void search();
+	void showEverything();
 };
 
 StreamingMedia::StreamingMedia(){
@@ -122,81 +115,67 @@ void StreamingMedia::loadInfo(){
 						compiled.push_back(line);
 				}
 
-				////La primera línea indica el número de Multimedia que es utilizado para saber el número de veces que se va a repetir el
-				////ordenamiento
+			//La primera línea indica el número de Multimedia que es utilizado para saber el número de veces que se va a repetir el
+			//ordenamiento
 
 			numberOfMultimediaInFile = stoi(compiled[0]);
-      f1.reserve(numberOfMultimediaInFile);
-      f2.reserve(numberOfMultimediaInFile);
-      f3.reserve(numberOfMultimediaInFile);
-      f4.reserve(numberOfMultimediaInFile);
-      f5.reserve(numberOfMultimediaInFile);
+		    f1.reserve(numberOfMultimediaInFile);
+		    f2.reserve(numberOfMultimediaInFile);
+		    f3.reserve(numberOfMultimediaInFile);
+		    f4.reserve(numberOfMultimediaInFile);
+		    f5.reserve(numberOfMultimediaInFile);
 
 			for (int h=1; h<=numberOfMultimediaInFile; h++) {
 
-        f1.push_back(compiled[h]);
+        		f1.push_back(compiled[h]);
 				f2.push_back(compiled[h+numberOfMultimediaInFile]);
 				f3.push_back(compiled[h+numberOfMultimediaInFile*2]);
 				f4.push_back(compiled[h+numberOfMultimediaInFile*3]);
 				f5.push_back(compiled[h+numberOfMultimediaInFile*4]);
-        //cout << tmp << " "<< tmp2 <<" "<< tmp3 <<" "<< tmp4 <<" "<< tmp5 << endl;
+        		//cout << tmp << " "<< tmp2 <<" "<< tmp3 <<" "<< tmp4 <<" "<< tmp5 << endl;
 
-        if (f3[h-1]=="na"){
+        		if (f3[h-1]=="na"){
 
-          Serie *S = new Serie(stoi(f1[h-1]), f2[h-1], f4[h-1], stoi(f5[h-1]));
-          Multimedia M(S);
-          pastmp = stoi(f1[h-1]);
-          listOfContent[pastmp] = M;
+          			Serie *S = new Serie(stoi(f1[h-1]), f2[h-1], f4[h-1], stoi(f5[h-1]));
+          			Multimedia M(S);
+          			pastmp = stoi(f1[h-1]);
+          			listOfContent[pastmp] = M;
 
-          //cout << listOfContent[stoi(f1[h-1])].getSerie() << endl;;
+          			//cout << listOfContent[stoi(f1[h-1])].getSerie() << endl;;
 
-        } else if (f1.size()>2&&f1[h-2]==f1[h-1]){
+        		} else if (f1.size()>2&&f1[h-2]==f1[h-1]){
+				
 					g = g+1;
-          Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]));
-          listOfContent[pastmp].saveEpisode(E);
-          //cout << listOfContent[stoi(f1[h-1])].getSerie().getEpisode();
-        } else {
+        		  	Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]));
+        		  	listOfContent[pastmp].saveEpisode(E);
+        		  	//cout << listOfContent[stoi(f1[h-1])].getSerie().getEpisode();
+        		
+        		} else {
+		
+		        	Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]));
+		        	Multimedia M(P);
+		        	listOfContent[stoi(f1[h-1])] = M;
+		        	//cout << listOfContent[stoi(f1[h-1])].getMovie() << endl;;
+        		
+        		}
 
-          Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]));
-          Multimedia M(P);
-          listOfContent[stoi(f1[h-1])] = M;
-          //cout << listOfContent[stoi(f1[h-1])].getMovie() << endl;;
-        }
-
-        //pastmp = tmp; multimediaData
-
-			//////Los datos en determinadas posiciones en el vector se van asignado a un objeto temporal.
-			//	//	myMultimediaLoaded.setOrigen(compiled[h*14+1]);
-			//	//	myMultimediaLoaded.setDestino(compiled[h*14+2]);
-
-			//	//	//Stoi() convierte los datos de tipo string a int.
-			//	//	fechaHoraSalidaMultimediaCargado.setFecha(stoi(compiled[h*14+3]), stoi(compiled[h*14+4]),
-			//	//		stoi(compiled[h*14+5]), stoi(compiled[h*14+6]), stoi(compiled[h*14+7]));
-			//	//	fechaHoraSalidaMultimediaCargadoPoint = &fechaHoraSalidaMultimediaCargado;
-			//	//	myMultimediaLoaded.setFechaHoraSalida(*fechaHoraSalidaMultimediaCargadoPoint);
-
-			//	//	fechaHoraLlegadaMultimediaCargado.setFecha(stoi(compiled[(h+1)*14-6]), stoi(compiled[(h+1)*14-5]),
-			//	//		stoi(compiled[(h+1)*14-4]), stoi(compiled[(h+1)*14-3]), stoi(compiled[(h+1)*14-2]));
-			//	//	fechaHoraLlegadaMultimediaCargadoPoint = &fechaHoraLlegadaMultimediaCargado;
-			//	//	myMultimediaLoaded.setFechaHoraLlegada(*fechaHoraLlegadaMultimediaCargadoPoint);
-
-			//		myMultimediaLoaded.setAeroline(compiled[(h+1)*14-1]);
-			//		myMultimediaLoaded.setNumeroMultimedia(stoi(compiled[(h+1)*14]));
-
-			//		//La dirección en memoria del objeto se asigna a un apuntador.
-			//		myMultimediaLoaded2 = &myMultimediaLoaded;
-
-			//		//El número de Multimedia se usa como llave para el objeto apuntador.
-			//		MultimediaData[stoi(compiled[(h+1)*14])] = *myMultimediaLoaded2;
 			}
-        //cout << f1.size() << f2.size() << f3.size() << f5.size();
-				cout << "--- DATA LOADED ---" << endl;
+        	
+        	//cout << f1.size() << f2.size() << f3.size() << f5.size();
+			cout << "--- DATA LOADED ---" << endl;
 	}
 
 	multimediaFile.close();
-  //cout << f1[8] << " " << f1[8] << endl;
 }
 
-void StreamingMedia::search(){
-
+void StreamingMedia::showEverything(){
+	for (auto k : matriculasPaise){
+		if (k.second.getSerie().getID()==0){
+			cout << k.second.getMovie() << endl;
+		} else {
+			cout << k.second.getSerie() << endl;
+			for (int r=0; r<k.second.getSerie.getEpisode().size(),r++)
+				cout << k.second.getSerie().getEpisode()[r];
+		}
+	}
 }

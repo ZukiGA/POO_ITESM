@@ -13,15 +13,16 @@ File: Serie.h
 using namespace std;
 
 class Serie{
+private:
   int ID, score;
   string name, duration, genre;
-  Episode e;
+  vector <Episode> episodes;
 public:
   Serie();
   Serie(int id, string na, string gen, int sc);
   void setEpisode(Episode*);
   int getID();
-  Episode getEpisode();
+  vector <Episode> getEpisode();
   friend ostream& operator <<(ostream& os, const Serie& s);
 };
 
@@ -38,10 +39,10 @@ Serie::Serie(int id, string na, string gen, int sc){
 };
 
 void Serie::setEpisode(Episode *E){
-  e = *E;
+  episodes.push_back(*E);
 }
-Episode Serie::getEpisode(){
-  return e;
+vector <Episode> Serie::getEpisode(){
+  return episodes;
 }
 
 int Serie::getID(){

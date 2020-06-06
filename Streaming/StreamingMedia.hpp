@@ -56,10 +56,10 @@ void StreamingMedia::on(){
 		userChoose = mainMenu();
 	}
 
-	off();
 }
 
 void StreamingMedia::off(){
+	cout << endl << "---------------------------" << endl;
 	cout << "We hope you have enjoyed GeekXGeek." << endl;
 	cout << "Turning off..." << endl;
 }

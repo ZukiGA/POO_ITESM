@@ -81,7 +81,7 @@ int StreamingMedia::mainMenu(){
 }
 
 void StreamingMedia::loadInfo(){
-	string fileName = "", line = "-1";
+	string fileName = "", line = "-1", numberID="";
 	vector <string> compiled;
 	Multimedia myMultimediaLoaded, *myMultimediaLoaded2;
 	int numberOfMultimediaInFile = 0;
@@ -106,17 +106,19 @@ void StreamingMedia::loadInfo(){
 
 			while (getline(multimediaFile, line)) {
 
-				//Se gurdan todas las líneas, excepto las que estén en blanco.
+				//All the lines are saved, except the one which doesn't have anything
 				if (line.size()!=0)
 						compiled.push_back(line);
 				}
 
 				////La primera línea indica el número de Multimedia que es utilizado para saber el número de veces que se va a repetir el
 				////ordenamiento
+
 				//numberOfMultimediaInFile = stoi(compiled[0]);
 
-			//	//for (int h=0; h<numberOfMultimediaInFile; h++) {
+			for (int h=0; h<numberOfMultimediaInFile; h++) {
 
+				size_t pos = compiled[h].find("	");
 			//////Los datos en determinadas posiciones en el vector se van asignado a un objeto temporal.
 			//	//	myMultimediaLoaded.setOrigen(compiled[h*14+1]);
 			//	//	myMultimediaLoaded.setDestino(compiled[h*14+2]);
@@ -140,7 +142,7 @@ void StreamingMedia::loadInfo(){
 
 			//		//El número de Multimedia se usa como llave para el objeto apuntador.
 			//		MultimediaData[stoi(compiled[(h+1)*14])] = *myMultimediaLoaded2;
-			//	}
+			}
 
 				cout << "--- DATA LOADED ---" << endl;
 	}

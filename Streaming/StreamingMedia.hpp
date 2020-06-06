@@ -78,8 +78,74 @@ int StreamingMedia::mainMenu(){
 }
 
 void StreamingMedia::loadInfo(){
+	string nombreArchivo = "", linea = "-1";
+	vector <string> recopilado;
+	Vuelo miVueloCargado, *miVueloCargado2;
+	FechaHora fechaHoraLlegadaVueloCargado, fechaHoraSalidaVueloCargado, *fechaHoraLlegadaVueloCargadoPoint, *fechaHoraSalidaVueloCargadoPoint;
+	int numeroVuelosArchivo = 0;
 
-	cout << "What is the"
+
+	cout << "¿Cuál es el nombre del archivo?" << endl;
+	cin >> nombreArchivo;
+
+	//Si el usuario no agrega el .txt se le asigna automáticamente.
+	size_t sIterador = nombreArchivo.find(".txt");
+
+	if (sIterador == string::npos)
+		nombreArchivo += ".txt";
+
+	ifstream archivoVuelos(nombreArchivo);
+
+	if (archivoVuelos.fail()) {
+
+		cout << "Archivo no encontrado" << endl;
+
+	} else {
+
+			while (getline(archivoVuelos, linea)) {
+
+				//Se gurdan todas las líneas, excepto las que estén en blanco.
+				if (linea.size()!=0)
+						recopilado.push_back(linea);
+				}
+
+				//La primera línea indica el número de vuelos que es utilizado para saber el número de veces que se va a repetir el
+				//ordenamiento
+				numeroVuelosArchivo = stoi(recopilado[0]);
+
+				for (int h=0; h<numeroVuelosArchivo; h++) {
+
+			//Los datos en determinadas posiciones en el vector se van asignado a un objeto temporal.
+					miVueloCargado.setOrigen(recopilado[h*14+1]);
+					miVueloCargado.setDestino(recopilado[h*14+2]);
+
+					//Stoi() convierte los datos de tipo string a int.
+					fechaHoraSalidaVueloCargado.setFecha(stoi(recopilado[h*14+3]), stoi(recopilado[h*14+4]),
+						stoi(recopilado[h*14+5]), stoi(recopilado[h*14+6]), stoi(recopilado[h*14+7]));
+					fechaHoraSalidaVueloCargadoPoint = &fechaHoraSalidaVueloCargado;
+					miVueloCargado.setFechaHoraSalida(*fechaHoraSalidaVueloCargadoPoint);
+
+					fechaHoraLlegadaVueloCargado.setFecha(stoi(recopilado[(h+1)*14-6]), stoi(recopilado[(h+1)*14-5]),
+						stoi(recopilado[(h+1)*14-4]), stoi(recopilado[(h+1)*14-3]), stoi(recopilado[(h+1)*14-2]));
+					fechaHoraLlegadaVueloCargadoPoint = &fechaHoraLlegadaVueloCargado;
+					miVueloCargado.setFechaHoraLlegada(*fechaHoraLlegadaVueloCargadoPoint);
+
+					miVueloCargado.setAerolinea(recopilado[(h+1)*14-1]);
+					miVueloCargado.setNumeroVuelo(stoi(recopilado[(h+1)*14]));
+
+					//La dirección en memoria del objeto se asigna a un apuntador.
+					miVueloCargado2 = &miVueloCargado;
+
+					//El número de vuelo se usa como llave para el objeto apuntador.
+					datosVuelosCarga[stoi(recopilado[(h+1)*14])] = *miVueloCargado2;
+				}
+
+				cout << "--- DATOS CARGADOS ---" << endl;
+	}
+
+	archivoVuelos.close();
+
+	return datosVuelosCarga;
 }
 
 void StreamingMedia::search(){

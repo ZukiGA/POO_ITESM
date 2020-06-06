@@ -22,16 +22,30 @@ public:
   Multimedia(Movie*);
   Multimedia(Serie*);
   void saveEpisode(Episode*);
+  Movie getMovie();
+  Serie getSerie();
 };
+
 Multimedia::Multimedia(){
 
 }
+
 Multimedia::Multimedia(Movie * m){
   M = *m;
-};
+}
+
 Multimedia::Multimedia(Serie * s){
   S = *s;
-};
+}
+
 void Multimedia::saveEpisode(Episode * e){
   S.setEpisode(e);
+}
+
+Movie Multimedia::getMovie(){
+  return M;
+}
+
+Serie Multimedia::getSerie(){
+  return S;
 }

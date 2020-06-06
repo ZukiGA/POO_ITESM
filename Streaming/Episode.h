@@ -13,11 +13,12 @@ using namespace std;
 
 class Episode : public Video{
 private:
-  int temporada;
+  int season;
   string IDChapter;
 public:
   Episode(string, string, string, int, int);
   Episode();
+  friend ostream& operator <<(ostream& os, const Episode& e);
 };
 
 Episode::Episode(string id, string na, string dura, int sc, int tp){
@@ -25,8 +26,15 @@ Episode::Episode(string id, string na, string dura, int sc, int tp){
   name = na;
   duration = dura;
   score = sc;
-  temporada = t
+  season = tp;
 }
 Episode::Episode(){
-
+  ID = 0;
 };
+
+ostream& operator<<(ostream& os, const Episode& e) {
+  os << "ID: " << e.IDChapter << endl << "Name: " << e.name << endl
+  << "Duration: " << e.duration << endl << "Season: " << e.season
+  << endl << "Score: " << e.score << endl;
+
+}

@@ -148,19 +148,19 @@ void StreamingMedia::loadInfo(){
           pastmp = stoi(f1[h-1]);
           listOfContent[pastmp] = M;
 
-          //cout << *listOfContent[stoi(f1[h-1])];
+          //cout << listOfContent[stoi(f1[h-1])].getSerie() << endl;;
+
         } else if (f1.size()>2&&f1[h-2]==f1[h-1]){
 					g = g+1;
-          Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]);
+          Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]));
           listOfContent[pastmp].saveEpisode(E);
-          //cout << "Checkpoint2" << endl;
-          //cout << *listOfContent[stoi(f1[h-1])];
+          //cout << listOfContent[stoi(f1[h-1])].getSerie().getEpisode();
         } else {
 
           Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]));
           Multimedia M(P);
           listOfContent[stoi(f1[h-1])] = M;
-          //cout << *listOfContent[stoi(f1[h-1])];
+          //cout << listOfContent[stoi(f1[h-1])].getMovie() << endl;;
         }
 
         //pastmp = tmp; multimediaData

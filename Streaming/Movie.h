@@ -15,7 +15,7 @@ class Movie : public Video{
 public:
   Movie(int, string, string, string, int);
   Movie();
-
+  friend ostream& operator <<(ostream& os, const Movie& v);
 };
 
 Movie::Movie(int id, string na, string dura, string gen, int sc){
@@ -26,5 +26,12 @@ Movie::Movie(int id, string na, string dura, string gen, int sc){
   score = sc;
 }
 Movie::Movie(){
-
+  ID = 0;
 };
+
+ostream& operator<<(ostream& os, const Movie& v) {
+  os << "ID: " << v.ID << endl << "Name: " << v.name << endl
+  << "Genre: " << v.genre << endl << "Duration: " << v.duration
+  << endl << "Score: " << v.score << endl;
+
+}

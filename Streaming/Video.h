@@ -18,7 +18,8 @@ protected:
 public:
   Video(int, string, string, string, int);
   Video();
-  friend ostream& operator <<(ostream& os, const Video& v);
+  int getID();
+
 };
 
 Video::Video(int id, string na, string dura, string gen, int sc){
@@ -30,11 +31,9 @@ Video::Video(int id, string na, string dura, string gen, int sc){
 }
 
 Video::Video(){
-
+  ID = 0;
 };
-ostream& operator<<(ostream& os, const Video& v) {
-  os << "ID: " << v.ID << endl << "Name: " << v.name << endl
-  << "Genre: " << v.genre << endl << "Duration: " << v.duration
-  << endl << "Score: " << v.score << endl;
 
+int Video::getID(){
+  return ID;
 }

@@ -6,17 +6,33 @@ Modification date: 07/04/20
 File: Serie.h
 */
 #include <bits/stdc++.h>
-#include "Multimedia.hpp"
+
+#include "Episode.h"
 
 
 using namespace std;
 
-class Serie : public Multimedia{
+class Serie{
+  int ID, score;
+  string name, duration, genre;
+  Episode e;
 public:
-
   Serie();
+  Serie(int id, string na, string gen, int sc);
+  void setEpisode(Episode*);
 };
 
 Serie::Serie(){
 
 };
+
+Serie::Serie(int id, string na, string gen, int sc){
+  ID = id;
+  name = na;
+  genre = gen;
+  score = sc;
+};
+
+void Serie::setEpisode(Episode *E){
+  e = *E;
+}

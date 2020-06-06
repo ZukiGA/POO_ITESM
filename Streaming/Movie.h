@@ -6,22 +6,24 @@ Modification date: 07/04/20
 File: Movie.h
 */
 #include <bits/stdc++.h>
-#include "Video.h"
+
 
 
 using namespace std;
 
 class Movie : public Video{
 public:
-  Movie(int, string, string, string);
+  Movie(int, string, string, string, int);
   Movie();
+
 };
 
-Movie::Movie(int id, string na, string gen, string dura){
+Movie::Movie(int id, string na, string dura, string gen, int sc){
   ID = id;
   name = na;
   genre = gen;
   duration = dura;
+  score = sc;
 }
 Movie::Movie(){
 

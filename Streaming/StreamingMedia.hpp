@@ -9,14 +9,14 @@ File: StreamingMedia.hpp
 #include <bits/stdc++.h>
 #include "SearchEngine.hpp"
 #include "Multimedia.hpp"
-#ifndef MOVIE_H_INCLUDED
-#define MOVIE_H_INCLUDED
-#ifndef SERIE_H_INCLUDED
-#define SERIE_H_INCLUDED
-#ifndef EPISODE_H_INCLUDED
-#define EPISODE_H_INCLUDED
-#ifndef VIDEO_H_INCLUDED
-#define VIDEO_H_INCLUDED
+//#ifndef MOVIE_H_INCLUDED
+//#define MOVIE_H_INCLUDED
+//#ifndef SERIE_H_INCLUDED
+//#define SERIE_H_INCLUDED
+//#ifndef EPISODE_H_INCLUDED
+//#define EPISODE_H_INCLUDED
+//#ifndef VIDEO_H_INCLUDED
+//#define VIDEO_H_INCLUDED
 
 
 
@@ -24,7 +24,7 @@ File: StreamingMedia.hpp
 using namespace std;
 
 class StreamingMedia {
- 	unordered_map <int, Multimedia*> listOfContent;
+ 	unordered_map <int, Multimedia> listOfContent;
 public:
 	StreamingMedia();
 	void on();
@@ -93,10 +93,9 @@ int StreamingMedia::mainMenu(){
 }
 
 void StreamingMedia::loadInfo(){
-	string fileName = "", line = "-1", numberID="", pastmp = "";
+	string fileName = "", line = "-1", numberID="";
 	vector <string> compiled, f1, f2, f3, f4, f5, f6;
-	Multimedia myMultimediaLoaded, *myMultimediaLoaded2;
-	int numberOfMultimediaInFile = 0;
+	int pastmp=0, numberOfMultimediaInFile = 0;
 
 
 	cout << "What is the name of the file?" << endl;
@@ -126,29 +125,44 @@ void StreamingMedia::loadInfo(){
 				////La primera línea indica el número de Multimedia que es utilizado para saber el número de veces que se va a repetir el
 				////ordenamiento
 
-				//numberOfMultimediaInFile = stoi(compiled[0]);
+			numberOfMultimediaInFile = stoi(compiled[0]);
+      f1.reserve(numberOfMultimediaInFile);
+      f2.reserve(numberOfMultimediaInFile);
+      f3.reserve(numberOfMultimediaInFile);
+      f4.reserve(numberOfMultimediaInFile);
+      f5.reserve(numberOfMultimediaInFile);
 
-			for (int h=1; h<=stoi(compiled[0])+1; h++) {
-        //cout << "Checkpoint3" << endl;
+			for (int h=1; h<=numberOfMultimediaInFile; h++) {
+
         f1.push_back(compiled[h]);
-				f2.push_back(compiled[h+stoi(compiled[0])]);
-				f3.push_back(compiled[h+stoi(compiled[0])*2]);
-				f4.push_back(compiled[h+stoi(compiled[0])*3]);
-				f5.push_back(compiled[h+stoi(compiled[0])*4]);
-				f6.push_back(compiled[h+stoi(compiled[0])*5]);
+				f2.push_back(compiled[h+numberOfMultimediaInFile]);
+				f3.push_back(compiled[h+numberOfMultimediaInFile*2]);
+				f4.push_back(compiled[h+numberOfMultimediaInFile*3]);
+				f5.push_back(compiled[h+numberOfMultimediaInFile*4]);
         //cout << tmp << " "<< tmp2 <<" "<< tmp3 <<" "<< tmp4 <<" "<< tmp5 << endl;
-        if (f3[h]=="na"){
-          Serie *S = new Serie();
-          listOfContent[stoi(f1[h])] = S;
-        } 
-				//else if (tmp==pastmp){
-        //  Episode *E = new Episode();
-        //  listOfContent[stoi(tmp)]->setEpisode(S);
-        //} else {
-        //  Movie *M = new Movie();
-        //  listOfContent[stoi(tmp)] = M;
-        //}
-        //pastmp = tmp;
+
+        if (f3[h-1]=="na"){
+
+          Serie *S = new Serie(stoi(f1[h-1]), f2[h-1], f4[h-1], stoi(f5[h-1]));
+          Multimedia M(S);
+          pastmp = stoi(f1[h-1]);
+          listOfContent[pastmp] = M;
+
+          //cout << *listOfContent[stoi(f1[h-1])];
+        } else if (f1.size()>2&&f1[h-2]==f1[h-1]){
+          Episode *E = new Episode();
+          listOfContent[pastmp].saveEpisode(E);
+          //cout << "Checkpoint2" << endl;
+          //cout << *listOfContent[stoi(f1[h-1])];
+        } else {
+
+          Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]));
+          Multimedia M(P);
+          listOfContent[stoi(f1[h-1])] = M;
+          //cout << *listOfContent[stoi(f1[h-1])];
+        }
+
+        //pastmp = tmp; multimediaData
 
 			//////Los datos en determinadas posiciones en el vector se van asignado a un objeto temporal.
 			//	//	myMultimediaLoaded.setOrigen(compiled[h*14+1]);
@@ -174,18 +188,14 @@ void StreamingMedia::loadInfo(){
 			//		//El número de Multimedia se usa como llave para el objeto apuntador.
 			//		MultimediaData[stoi(compiled[(h+1)*14])] = *myMultimediaLoaded2;
 			}
-
+        //cout << f1.size() << f2.size() << f3.size() << f5.size();
 				cout << "--- DATA LOADED ---" << endl;
 	}
 
 	multimediaFile.close();
-
+  //cout << f1[8] << " " << f1[8] << endl;
 }
 
 void StreamingMedia::search(){
 
 }
-#endif
-#endif
-#endif
-#endif

@@ -6,8 +6,7 @@ Modification date: 07/04/20
 File: Episode.h
 */
 #include <bits/stdc++.h>
-#include "Video.h"
-#include "Serie.h"
+
 
 
 using namespace std;

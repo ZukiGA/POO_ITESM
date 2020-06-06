@@ -6,27 +6,35 @@ Modification date: 07/04/20
 File: Video.h
 */
 #include <bits/stdc++.h>
-#include "Multimedia.hpp"
+
 
 
 using namespace std;
 
-class Video : public Multimedia{
+class Video {
 protected:
-  int ID;
-  string name, genre, duration;
+  int ID, score;
+  string name, duration, genre;
 public:
-  Video(int, string, string, string);
+  Video(int, string, string, string, int);
   Video();
+  friend ostream& operator <<(ostream& os, const Video& v);
 };
 
-Video::Video(int id, string na, string gen, string dura){
+Video::Video(int id, string na, string dura, string gen, int sc){
   ID = id;
   name = na;
   genre = gen;
   duration = dura;
+  score = sc;
 }
 
 Video::Video(){
 
 };
+ostream& operator<<(ostream& os, const Video& v) {
+  os << "ID: " << v.ID << endl << "Name: " << v.name << endl
+  << "Genre: " << v.genre << endl << "Duration: " << v.duration
+  << endl << "Score: " << v.score << endl;
+
+}

@@ -43,7 +43,7 @@ void StreamingMedia::on(){
 			loadInfo();
 		} else {
 			if (userChoose == 2) {
-				//SHOW CATALOGUE;
+				showEverything();
 			} else {
 				if (userChoose == 3) {
 					//SHOW SERIES;
@@ -144,23 +144,23 @@ void StreamingMedia::loadInfo(){
           			//cout << listOfContent[stoi(f1[h-1])].getSerie() << endl;;
 
         		} else if (f1.size()>2&&f1[h-2]==f1[h-1]){
-				
-					g = g+1;
+
+					      g = g+1;
         		  	Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]));
         		  	listOfContent[pastmp].saveEpisode(E);
         		  	//cout << listOfContent[stoi(f1[h-1])].getSerie().getEpisode();
-        		
+
         		} else {
-		
+
 		        	Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]));
 		        	Multimedia M(P);
 		        	listOfContent[stoi(f1[h-1])] = M;
 		        	//cout << listOfContent[stoi(f1[h-1])].getMovie() << endl;;
-        		
+
         		}
 
 			}
-        	
+
         	//cout << f1.size() << f2.size() << f3.size() << f5.size();
 			cout << "--- DATA LOADED ---" << endl;
 	}
@@ -169,13 +169,17 @@ void StreamingMedia::loadInfo(){
 }
 
 void StreamingMedia::showEverything(){
-	for (auto k : matriculasPaise){
+	for (auto k : listOfContent){
 		if (k.second.getSerie().getID()==0){
+      cout << "----------Movie----------" << endl;
 			cout << k.second.getMovie() << endl;
 		} else {
+      cout << "----------Serie----------" << endl;
 			cout << k.second.getSerie() << endl;
-			for (int r=0; r<k.second.getSerie.getEpisode().size(),r++)
-				cout << k.second.getSerie().getEpisode()[r];
+      cout << "----------Episodes----------" << endl;
+			for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
+				cout << k.second.getSerie().getEpisode()[r] << endl;
 		}
+    cout << "--------------------------" << endl << endl;
 	}
 }

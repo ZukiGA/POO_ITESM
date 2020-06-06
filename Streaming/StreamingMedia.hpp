@@ -7,27 +7,28 @@ File: StreamingMedia.hpp
 */
 
 #include <bits/stdc++.h>
-#include "SearchEngine.hpp"
 #include "Multimedia.hpp"
-
-
-
-
+#include "SearchEngine.hpp"
 
 using namespace std;
 
 class StreamingMedia {
  	unordered_map <int, Multimedia> listOfContent;
+	SearchEngine filters;
 public:
 	StreamingMedia();
 	void on();
 	void off();
 	int mainMenu();
 	void loadInfo();
+	void showSeries(int);
+	void showMovies();
 	void showEverything();
+	void search();
 };
 
 StreamingMedia::StreamingMedia(){
+	filters(listOfContent);
 }
 
 void StreamingMedia::on(){
@@ -46,13 +47,13 @@ void StreamingMedia::on(){
 				showEverything();
 			} else {
 				if (userChoose == 3) {
-					//SHOW SERIES;
+					showSeries();
 				} else {
 					if (userChoose == 4) {
-						//SHOW MOVIES;
+						showMovies();
 					} else {
 						if (userChoose == 5) {
-							//FILTERS;
+							search();
 						} else {
 							if (userChoose == 6) {
 								//RATE;
@@ -168,18 +169,53 @@ void StreamingMedia::loadInfo(){
 	multimediaFile.close();
 }
 
-void StreamingMedia::showEverything(){
+void StreamingMedia::showSeries(int d){
+	int b = 0;
 	for (auto k : listOfContent){
-		if (k.second.getSerie().getID()==0){
-      cout << "----------Movie----------" << endl;
-			cout << k.second.getMovie() << endl;
-		} else {
-      cout << "----------Serie----------" << endl;
+		if (k.second.getMovie().getID()==0){
+			b=b+1;
+     	cout << "----------Serie " << b << "----------" << endl;
 			cout << k.second.getSerie() << endl;
-      cout << "----------Episodes----------" << endl;
-			for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
-				cout << k.second.getSerie().getEpisode()[r] << endl;
+			if (d==1){
+	      cout << "----------Episodes----------" << endl;
+				for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
+					cout << k.second.getSerie().getEpisode()[r] << endl;
+				}
 		}
     cout << "--------------------------" << endl << endl;
 	}
 }
+
+void StreamingMedia::showMovies(){
+	int b = 0;
+	for (auto k : listOfContent){
+		if (k.second.getSerie().getID()==0){
+			b = b+1;
+      cout << "----------Movie " << b << "----------" << endl;
+			cout << k.second.getMovie() << endl;
+		}
+    cout << "--------------------------" << endl << endl;
+	}
+}
+
+void StreamingMedia::showEverything(){
+	showMovies();
+	showSeries(1);
+}
+
+void StreamingMedia::search(){
+	string filter = "", content = "", serieChosen = "";
+	cout << "Choose a filter:" << endl << "1. Score"
+	<< endl << "2. Genre" << endl;
+	cin >> filter;
+	cout << "Kind of content:" << endl << "1. Movies"
+	<< endl << "2. Series" << endl << "3. All" << endl;
+	cin >> content;
+	if (stoi(content)==2){
+		cout << "Ingresa el número de la serie:" << endl;
+		showSeries(0);
+		cin >> serieChosen;
+		filters.searchBy(filter, listOfContent, serieChosen);
+	}
+	filters.searchBy(filter, content, listOfContent);
+};

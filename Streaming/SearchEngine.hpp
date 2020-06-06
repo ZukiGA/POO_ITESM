@@ -12,31 +12,77 @@ class SearchEngine {
 
 public:
   SearchEngine();
-  void searchVideo();
+  void searchBy(string, unordered_map <int, Multimedia>, string);
+  void searchBy(string, string, unordered_map <int,Multimedia> );
+  void searchMovie(unordered_map <int, Multimedia>);
   void searchSerie();
   void searchEpisode();
-  void searchMovie();
-  void searchByScore();
   void searchByGenre();
+  void searchByScore();
 };
+
 
 SearchEngine::SearchEngine(){
 }
 
-void SearchEngine::searchVideo(){
+void SearchEngine::searchBy(string filter, unordered_map <int, Multimedia> catalogue, string serieChosen){
 
+  if (filter=="1"){
+    searchByScore();
+  } else {
+    searchByGenre();
+  }
+
+  searchEpisode();
 }
 
-void SearchEngine::searchSerie(){
+void SearchEngine::searchBy(string filter, string content, unordered_map <int,Multimedia> catalogue ){
+  vector <Movie> v;
+  vector <Serie> m;
+  if (content=="3"){
+    m=searchSerie(catalogue);
+    v=searchMovie(catalogue);
+  } else {
 
+    v=searchMovie(catalogue);
+  }
+
+  if (filter=="1"){
+    searchByScore();
+  } else {
+    searchByGenre();
+  }
 }
 
-void SearchEngine::searchEpisode(){
-
+vector <Movie> SearchEngine::searchMovie(unordered_map <int, Multimedia> catalogue){
+  vector<Movie> newList;
+  for (auto k : catalogue){
+    if (k.second.getSerie().getID()==0){
+      newlist.push_back(k.second.getMovie());
+    }
+  }
+  return newList;
 }
 
-void SearchEngine::searchMovie(){
+vector <Serie> SearchEngine::searchSerie(unordered_map <int, Multimedia> catalogue){
+  vector <Serie> newList;
+  for (auto k : catalogue){
+    if (k.second.getMovie().getID()==0){
+      newlist.push_back(k.second.getSerie());
+    }
+  }
+  return newList;
+}
 
+void  SearchEngine::searchEpisode(){
+  //int j=0;
+  //vector <Episode> newList = searchSerie();
+  //for (auto & k : newList){
+  //  j=j+1;
+  //  if (j==stoi(episodeID)){
+  //    ;
+  //  }
+  //}
 }
 
 void SearchEngine::searchByGenre(){

@@ -2,8 +2,8 @@
 Author: Bryan González Arellano
 ID : A01734198
 Creation date: 06/04/20
-Modification date: 06/04/20
-File: StreamingMedia.h
+Modification date: 07/04/20
+File: StreamingMedia.hpp
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -31,7 +31,8 @@ void StreamingMedia::on(){
 
 	while (userChoose>0&&userChoose<7) {
 		if (userChoose == 1) {
-			//LOAD FUNCTION;
+			//LOAD FUNCTION
+			loadInfo();
 		} else {
 			if (userChoose == 2) {
 				//SHOW CATALOGUE;
@@ -78,6 +79,7 @@ int StreamingMedia::mainMenu(){
 
 void StreamingMedia::loadInfo(){
 
+	cout << "What is the"
 }
 
 void StreamingMedia::search(){

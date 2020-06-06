@@ -12,16 +12,20 @@ File: Episode.h
 using namespace std;
 
 class Episode : public Video{
+private:
+  int temporada;
+  string IDChapter;
 public:
-  Episode(int, string, string, string);
+  Episode(string, string, string, int, int);
   Episode();
 };
 
-Episode::Episode(int id, string na, string gen, string dura){
-  ID = id;
+Episode::Episode(string id, string na, string dura, int sc, int tp){
+  IDChapter = id;
   name = na;
-  genre = gen;
   duration = dura;
+  score = sc;
+  temporada = t
 }
 Episode::Episode(){
 

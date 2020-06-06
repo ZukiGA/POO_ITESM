@@ -95,7 +95,7 @@ int StreamingMedia::mainMenu(){
 void StreamingMedia::loadInfo(){
 	string fileName = "", line = "-1", numberID="";
 	vector <string> compiled, f1, f2, f3, f4, f5, f6;
-	int pastmp=0, numberOfMultimediaInFile = 0;
+	int pastmp=0, numberOfMultimediaInFile = 0, g=0;
 
 
 	cout << "What is the name of the file?" << endl;
@@ -150,7 +150,8 @@ void StreamingMedia::loadInfo(){
 
           //cout << *listOfContent[stoi(f1[h-1])];
         } else if (f1.size()>2&&f1[h-2]==f1[h-1]){
-          Episode *E = new Episode();
+					g = g+1;
+          Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]);
           listOfContent[pastmp].saveEpisode(E);
           //cout << "Checkpoint2" << endl;
           //cout << *listOfContent[stoi(f1[h-1])];

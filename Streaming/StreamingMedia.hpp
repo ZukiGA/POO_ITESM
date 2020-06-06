@@ -45,8 +45,9 @@ void StreamingMedia::on(){
 						if (userChoose == 5) {
 							//FILTERS;
 						} else {
-							if (userChoose == 6)
+							if (userChoose == 6) {
 								//RATE;
+							}
 						}
 					}
 				}
@@ -66,13 +67,13 @@ void StreamingMedia::off(){
 int StreamingMedia::mainMenu(){
 	int choose = 0;
 
-	cout << endl << "-----MENU-----" << endl << "Choose one of the next options:" << endl << "1. Load file" 
-	<< endl << "2. Show me all the videos" << endl << "3. Show me series" << endl << "4. Show me movies" 
+	cout << endl << "-----MENU-----" << endl << "Choose one of the next options:" << endl << "1. Load file"
+	<< endl << "2. Show me all the videos" << endl << "3. Show me series" << endl << "4. Show me movies"
 	<< endl << "5. Filter your search (Score, Genre)" << endl << "6. Rate a video" << endl << "0. Exit" << endl;
 
 	cin >> choose;
 
-	return choose;	
+	return choose;
 }
 
 void StreamingMedia::loadInfo(){

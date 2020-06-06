@@ -6,10 +6,13 @@ Modification date: 07/04/20
 File: StreamingMedia.hpp
 */
 #include <bits/stdc++.h>
+#include "SearchEngine.hpp"
+#include "Multimedia.hpp"
+
 using namespace std;
 
 class StreamingMedia {
-private:
+ 	unordered_map <int, Multimedia> listOfContent;
 public:
 	StreamingMedia();
 	void on();
@@ -69,7 +72,7 @@ int StreamingMedia::mainMenu(){
 	int choose = 0;
 
 	cout << endl << "-----MENU-----" << endl << "Choose one of the next options:" << endl << "1. Load file"
-	<< endl << "2. Show me all the videos" << endl << "3. Show me series" << endl << "4. Show me movies"
+	<< endl << "2. Show me all the Multimedia" << endl << "3. Show me series" << endl << "4. Show me movies"
 	<< endl << "5. Filter your search (Score, Genre)" << endl << "6. Rate a video" << endl << "0. Exit" << endl;
 
 	cin >> choose;
@@ -78,74 +81,72 @@ int StreamingMedia::mainMenu(){
 }
 
 void StreamingMedia::loadInfo(){
-	string nombreArchivo = "", linea = "-1";
-	vector <string> recopilado;
-	Vuelo miVueloCargado, *miVueloCargado2;
-	FechaHora fechaHoraLlegadaVueloCargado, fechaHoraSalidaVueloCargado, *fechaHoraLlegadaVueloCargadoPoint, *fechaHoraSalidaVueloCargadoPoint;
-	int numeroVuelosArchivo = 0;
+	string fileName = "", line = "-1";
+	vector <string> compiled;
+	Multimedia myMultimediaLoaded, *myMultimediaLoaded2;
+	int numberOfMultimediaInFile = 0;
 
 
-	cout << "¿Cuál es el nombre del archivo?" << endl;
-	cin >> nombreArchivo;
+	cout << "What is the name of the file?" << endl;
+	cin >> fileName;
 
-	//Si el usuario no agrega el .txt se le asigna automáticamente.
-	size_t sIterador = nombreArchivo.find(".txt");
+	//If the user don't add the .txt, this line appends it.
+	size_t sIterador = fileName.find(".txt");
 
 	if (sIterador == string::npos)
-		nombreArchivo += ".txt";
+		fileName += ".txt";
 
-	ifstream archivoVuelos(nombreArchivo);
+	ifstream multimediaFile(fileName);
 
-	if (archivoVuelos.fail()) {
+	if (multimediaFile.fail()) {
 
-		cout << "Archivo no encontrado" << endl;
+		cout << "Sorry, it appears the file doesn't exist." << endl;
 
 	} else {
 
-			while (getline(archivoVuelos, linea)) {
+			while (getline(multimediaFile, line)) {
 
 				//Se gurdan todas las líneas, excepto las que estén en blanco.
-				if (linea.size()!=0)
-						recopilado.push_back(linea);
+				if (line.size()!=0)
+						compiled.push_back(line);
 				}
 
-				//La primera línea indica el número de vuelos que es utilizado para saber el número de veces que se va a repetir el
-				//ordenamiento
-				numeroVuelosArchivo = stoi(recopilado[0]);
+				////La primera línea indica el número de Multimedia que es utilizado para saber el número de veces que se va a repetir el
+				////ordenamiento
+				//numberOfMultimediaInFile = stoi(compiled[0]);
 
-				for (int h=0; h<numeroVuelosArchivo; h++) {
+			//	//for (int h=0; h<numberOfMultimediaInFile; h++) {
 
-			//Los datos en determinadas posiciones en el vector se van asignado a un objeto temporal.
-					miVueloCargado.setOrigen(recopilado[h*14+1]);
-					miVueloCargado.setDestino(recopilado[h*14+2]);
+			//////Los datos en determinadas posiciones en el vector se van asignado a un objeto temporal.
+			//	//	myMultimediaLoaded.setOrigen(compiled[h*14+1]);
+			//	//	myMultimediaLoaded.setDestino(compiled[h*14+2]);
 
-					//Stoi() convierte los datos de tipo string a int.
-					fechaHoraSalidaVueloCargado.setFecha(stoi(recopilado[h*14+3]), stoi(recopilado[h*14+4]),
-						stoi(recopilado[h*14+5]), stoi(recopilado[h*14+6]), stoi(recopilado[h*14+7]));
-					fechaHoraSalidaVueloCargadoPoint = &fechaHoraSalidaVueloCargado;
-					miVueloCargado.setFechaHoraSalida(*fechaHoraSalidaVueloCargadoPoint);
+			//	//	//Stoi() convierte los datos de tipo string a int.
+			//	//	fechaHoraSalidaMultimediaCargado.setFecha(stoi(compiled[h*14+3]), stoi(compiled[h*14+4]),
+			//	//		stoi(compiled[h*14+5]), stoi(compiled[h*14+6]), stoi(compiled[h*14+7]));
+			//	//	fechaHoraSalidaMultimediaCargadoPoint = &fechaHoraSalidaMultimediaCargado;
+			//	//	myMultimediaLoaded.setFechaHoraSalida(*fechaHoraSalidaMultimediaCargadoPoint);
 
-					fechaHoraLlegadaVueloCargado.setFecha(stoi(recopilado[(h+1)*14-6]), stoi(recopilado[(h+1)*14-5]),
-						stoi(recopilado[(h+1)*14-4]), stoi(recopilado[(h+1)*14-3]), stoi(recopilado[(h+1)*14-2]));
-					fechaHoraLlegadaVueloCargadoPoint = &fechaHoraLlegadaVueloCargado;
-					miVueloCargado.setFechaHoraLlegada(*fechaHoraLlegadaVueloCargadoPoint);
+			//	//	fechaHoraLlegadaMultimediaCargado.setFecha(stoi(compiled[(h+1)*14-6]), stoi(compiled[(h+1)*14-5]),
+			//	//		stoi(compiled[(h+1)*14-4]), stoi(compiled[(h+1)*14-3]), stoi(compiled[(h+1)*14-2]));
+			//	//	fechaHoraLlegadaMultimediaCargadoPoint = &fechaHoraLlegadaMultimediaCargado;
+			//	//	myMultimediaLoaded.setFechaHoraLlegada(*fechaHoraLlegadaMultimediaCargadoPoint);
 
-					miVueloCargado.setAerolinea(recopilado[(h+1)*14-1]);
-					miVueloCargado.setNumeroVuelo(stoi(recopilado[(h+1)*14]));
+			//		myMultimediaLoaded.setAeroline(compiled[(h+1)*14-1]);
+			//		myMultimediaLoaded.setNumeroMultimedia(stoi(compiled[(h+1)*14]));
 
-					//La dirección en memoria del objeto se asigna a un apuntador.
-					miVueloCargado2 = &miVueloCargado;
+			//		//La dirección en memoria del objeto se asigna a un apuntador.
+			//		myMultimediaLoaded2 = &myMultimediaLoaded;
 
-					//El número de vuelo se usa como llave para el objeto apuntador.
-					datosVuelosCarga[stoi(recopilado[(h+1)*14])] = *miVueloCargado2;
-				}
+			//		//El número de Multimedia se usa como llave para el objeto apuntador.
+			//		MultimediaData[stoi(compiled[(h+1)*14])] = *myMultimediaLoaded2;
+			//	}
 
-				cout << "--- DATOS CARGADOS ---" << endl;
+				cout << "--- DATA LOADED ---" << endl;
 	}
 
-	archivoVuelos.close();
+	multimediaFile.close();
 
-	return datosVuelosCarga;
 }
 
 void StreamingMedia::search(){

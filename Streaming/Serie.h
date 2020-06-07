@@ -14,12 +14,13 @@ using namespace std;
 
 class Serie{
 private:
-  int ID, score;
+  int ID;
+  float score;
   string name, duration, genre;
   vector <Episode> episodes;
 public:
   Serie();
-  Serie(int id, string na, string gen, int sc);
+  Serie(int id, string na, string gen, float sc);
   void setEpisode(Episode*);
   int getID();
   vector <Episode> getEpisode();
@@ -30,7 +31,7 @@ Serie::Serie(){
   ID = 0;
 };
 
-Serie::Serie(int id, string na, string gen, int sc){
+Serie::Serie(int id, string na, string gen, float sc){
   ID = id;
   name = na;
   genre = gen;
@@ -39,6 +40,8 @@ Serie::Serie(int id, string na, string gen, int sc){
 };
 
 void Serie::setEpisode(Episode *E){
+  E->setID(ID);
+  E->setGenre(genre);
   episodes.push_back(*E);
 }
 vector <Episode> Serie::getEpisode(){

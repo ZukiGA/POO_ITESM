@@ -13,12 +13,12 @@ using namespace std;
 
 class Movie : public Video{
 public:
-  Movie(int, string, string, string, int);
+  Movie(int, string, string, string, float);
   Movie();
-  friend ostream& operator <<(ostream& os, const Movie& v);
+
 };
 
-Movie::Movie(int id, string na, string dura, string gen, int sc){
+Movie::Movie(int id, string na, string dura, string gen, float sc){
   ID = id;
   name = na;
   genre = gen;
@@ -28,10 +28,3 @@ Movie::Movie(int id, string na, string dura, string gen, int sc){
 Movie::Movie(){
   ID = 0;
 };
-
-ostream& operator<<(ostream& os, const Movie& v) {
-  os << "ID: " << v.ID << endl << "Name: " << v.name << endl
-  << "Genre: " << v.genre << endl << "Duration: " << v.duration
-  << endl << "Score: " << v.score << endl;
-
-}

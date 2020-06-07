@@ -13,16 +13,23 @@ using namespace std;
 
 class Video {
 protected:
-  int ID, score;
+  int ID;
+  float score;
   string name, duration, genre;
 public:
-  Video(int, string, string, string, int);
+  Video(int, string, string, string, float);
   Video();
   int getID();
-
+  int getScore();
+  string getGenre();
+  friend ostream& operator <<(ostream& os, const Video& v){
+    os << "ID: " << v.ID << endl << "Title: " << v.name << endl
+    << "Genre: " << v.genre << endl << "Duration: " << v.duration
+    << endl << "Score: " << v.score << endl;
+  }
 };
 
-Video::Video(int id, string na, string dura, string gen, int sc){
+Video::Video(int id, string na, string dura, string gen, float sc){
   ID = id;
   name = na;
   genre = gen;
@@ -36,4 +43,12 @@ Video::Video(){
 
 int Video::getID(){
   return ID;
+}
+
+int Video::getScore(){
+  return score;
+}
+
+string Video::getGenre(){
+  return genre;
 }

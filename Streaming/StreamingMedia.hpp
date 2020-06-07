@@ -14,7 +14,6 @@ using namespace std;
 
 class StreamingMedia {
  	unordered_map <int, Multimedia> listOfContent;
-	SearchEngine filters;
 public:
 	StreamingMedia();
 	void on();
@@ -28,13 +27,13 @@ public:
 };
 
 StreamingMedia::StreamingMedia(){
-	filters(listOfContent);
+
 }
 
 void StreamingMedia::on(){
 	int userChoose = 0;
 
-	cout << "WELCOME" << endl;
+	cout << "-------------WELCOME TO GeekXGeek-------------" << endl;
 
 	userChoose = mainMenu();
 
@@ -47,7 +46,7 @@ void StreamingMedia::on(){
 				showEverything();
 			} else {
 				if (userChoose == 3) {
-					showSeries();
+					showSeries(1);
 				} else {
 					if (userChoose == 4) {
 						showMovies();
@@ -71,15 +70,15 @@ void StreamingMedia::on(){
 void StreamingMedia::off(){
 	cout << endl << "---------------------------" << endl;
 	cout << "We hope you have enjoyed GeekXGeek." << endl;
-	cout << "Turning off..." << endl;
+	cout << "Shutting down..." << endl;
 }
 
 int StreamingMedia::mainMenu(){
 	int choose = 0;
 
 	cout << endl << "-----MENU-----" << endl << "Choose one of the next options:" << endl << "1. Load file"
-	<< endl << "2. Show me all the Multimedia" << endl << "3. Show me series" << endl << "4. Show me movies"
-	<< endl << "5. Filter your search (Score, Genre)" << endl << "6. Rate a video" << endl << "0. Exit" << endl;
+	<< endl << "2. Show all the content" << endl << "3. Show only series" << endl << "4. Show only movies"
+	<< endl << "5. Filter a search (Score, Genre)" << endl << "6. Rate a video" << endl << "0. Exit" << endl;
 
 	cin >> choose;
 
@@ -137,7 +136,7 @@ void StreamingMedia::loadInfo(){
 
         		if (f3[h-1]=="na"){
 
-          			Serie *S = new Serie(stoi(f1[h-1]), f2[h-1], f4[h-1], stoi(f5[h-1]));
+          			Serie *S = new Serie(stoi(f1[h-1]), f2[h-1], f4[h-1], stof(f5[h-1]));
           			Multimedia M(S);
           			pastmp = stoi(f1[h-1]);
           			listOfContent[pastmp] = M;
@@ -147,13 +146,13 @@ void StreamingMedia::loadInfo(){
         		} else if (f1.size()>2&&f1[h-2]==f1[h-1]){
 
 					      g = g+1;
-        		  	Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]));
+        		  	Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stof(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]));
         		  	listOfContent[pastmp].saveEpisode(E);
         		  	//cout << listOfContent[stoi(f1[h-1])].getSerie().getEpisode();
 
         		} else {
 
-		        	Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stoi(f5[h-1]));
+		        	Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stof(f5[h-1]));
 		        	Multimedia M(P);
 		        	listOfContent[stoi(f1[h-1])] = M;
 		        	//cout << listOfContent[stoi(f1[h-1])].getMovie() << endl;;
@@ -176,13 +175,11 @@ void StreamingMedia::showSeries(int d){
 			b=b+1;
      	cout << "----------Serie " << b << "----------" << endl;
 			cout << k.second.getSerie() << endl;
-			if (d==1){
-	      cout << "----------Episodes----------" << endl;
-				for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
-					cout << k.second.getSerie().getEpisode()[r] << endl;
-				}
+	    cout << "----------Episodes----------" << endl;
+			for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
+				cout << k.second.getSerie().getEpisode()[r] << endl;
+      cout << "--------------------------" << endl << endl;
 		}
-    cout << "--------------------------" << endl << endl;
 	}
 }
 
@@ -193,8 +190,9 @@ void StreamingMedia::showMovies(){
 			b = b+1;
       cout << "----------Movie " << b << "----------" << endl;
 			cout << k.second.getMovie() << endl;
+      cout << "--------------------------" << endl << endl;
 		}
-    cout << "--------------------------" << endl << endl;
+
 	}
 }
 
@@ -204,18 +202,8 @@ void StreamingMedia::showEverything(){
 }
 
 void StreamingMedia::search(){
-	string filter = "", content = "", serieChosen = "";
-	cout << "Choose a filter:" << endl << "1. Score"
-	<< endl << "2. Genre" << endl;
-	cin >> filter;
-	cout << "Kind of content:" << endl << "1. Movies"
-	<< endl << "2. Series" << endl << "3. All" << endl;
-	cin >> content;
-	if (stoi(content)==2){
-		cout << "Ingresa el número de la serie:" << endl;
-		showSeries(0);
-		cin >> serieChosen;
-		filters.searchBy(filter, listOfContent, serieChosen);
-	}
-	filters.searchBy(filter, content, listOfContent);
+	string filter = "", content = "", serieChosen = "", minimumScore = "";
+
+	SearchEngine filters(listOfContent);
+  filters.searchBy();
 };

@@ -16,12 +16,14 @@ private:
   int season;
   string IDChapter;
 public:
-  Episode(string, string, string, int, int);
+  Episode(string, string, string, float, int);
   Episode();
+  void setID(int);
+  void setGenre(string);
   friend ostream& operator <<(ostream& os, const Episode& e);
 };
 
-Episode::Episode(string id, string na, string dura, int sc, int tp){
+Episode::Episode(string id, string na, string dura, float sc, int tp){
   IDChapter = id;
   name = na;
   duration = dura;
@@ -31,6 +33,12 @@ Episode::Episode(string id, string na, string dura, int sc, int tp){
 Episode::Episode(){
   ID = 0;
 };
+void Episode::setID(int ii){
+  ID = ii;
+}
+void Episode::setGenre(string ge){
+  genre = ge;
+}
 
 ostream& operator<<(ostream& os, const Episode& e) {
   os << "ID: " << e.IDChapter << endl << "Name: " << e.name << endl

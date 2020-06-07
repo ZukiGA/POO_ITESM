@@ -262,6 +262,7 @@ void StreamingMedia::scoring(){
       cout << "Enter your rating: ";
       cin >> rate;
       listOfContent[val].getSerie().getEpisode()[w].rate(stof(rate));
+      cout << listOfContent[val].getSerie().getEpisode()[w].getScore();
       cout << "-------------DONE--------------" << endl;
       cout << listOfContent[val].getSerie().getEpisode()[w] << endl;
       cout << "-------------------------------" << endl;

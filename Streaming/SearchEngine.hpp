@@ -18,12 +18,12 @@ public:
   void sort(string, string);
   void call(float, string);
   void call(string, string);
-  vector <Video> searchMovie();
-  vector <Video> searchEpisode();
-  vector <Video> searchEpisode(string);
-  vector <Video>  searchVideo();
-  void searchByGenre(vector <Video>, string);
-  void searchByScore(vector <Video>, float);
+  vector <Video*> searchMovie();
+  vector <Video*> searchEpisode();
+  vector <Video*> searchEpisode(string);
+  vector <Video*>  searchVideo();
+  void searchByGenre(vector <Video*>, string);
+  void searchByScore(vector <Video*>, float);
 };
 
 
@@ -60,7 +60,7 @@ void SearchEngine::sort(string filter,string value){
 }
 
 void SearchEngine::call(float v, string c){
-  vector <Video> vec;
+  vector <Video*> vec;
   string number = "";
   if (c=="1"){
     vec=searchMovie();
@@ -83,7 +83,7 @@ void SearchEngine::call(float v, string c){
 }
 
 void SearchEngine::call(string v, string c){
-  vector <Video> vec;
+  vector <Video*> vec;
   if (c=="1"){
     vec=searchMovie();
   } else if (c=="2"){
@@ -94,64 +94,64 @@ void SearchEngine::call(string v, string c){
   searchByGenre(vec,v);
 }
 
-vector <Video> SearchEngine::searchMovie(){
-  vector<Video> newList;
+vector <Video*> SearchEngine::searchMovie(){
+  vector<Video*> newList;
   for (auto k : catalogue){
     if (k.second.getSerie().getID()==0){
-      newList.push_back(k.second.getMovie());
+      newList.push_back(k.second.getMovie().getThis());
     }
   }
   return newList;
 }
 
-vector <Video> SearchEngine::searchEpisode(){
-  vector <Video> newList;
+vector <Video*> SearchEngine::searchEpisode(){
+  vector <Video*> newList;
   for (auto k : catalogue){
     if (k.second.getMovie().getID()==0){
       for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
-        newList.push_back(k.second.getSerie().getEpisode()[r]);
+        newList.push_back(&k.second.getSerie().getEpisode()[r]);
     }
   }
   return newList;
 }
 
-vector <Video> SearchEngine::searchEpisode(string n){
-  vector <Video> newList;
+vector <Video*> SearchEngine::searchEpisode(string n){
+  vector <Video*> newList;
   int b = 0;
   for (auto k : catalogue){
     if (k.second.getMovie().getID()==0){
       b = b+1;
       if (b==stoi(n)){
         for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
-          newList.push_back(k.second.getSerie().getEpisode()[r]);
+          newList.push_back(&k.second.getSerie().getEpisode()[r]);
       }
     }
   }
   return newList;
 }
 
-vector <Video> SearchEngine::searchVideo(){
-  vector <Video> newList = searchMovie();
-  vector <Video> tmp = searchEpisode();
+vector <Video*> SearchEngine::searchVideo(){
+  vector <Video*> newList = searchMovie();
+  vector <Video*> tmp = searchEpisode();
   newList.insert(newList.end(), begin(tmp), end(tmp));
   return newList;
 }
 
 
-void SearchEngine::searchByGenre(vector <Video> vec, string s){
+void SearchEngine::searchByGenre(vector <Video*> vec, string s){
   cout << "--------RESULTS----------" << endl;
   for (int u=0; u<vec.size(); u++) {
-    if (vec[u].getGenre()==s)
-      cout << vec[u] << endl;
+    if (vec[u]->getGenre()==s)
+      cout << *vec[u] << endl;
   }
   cout << "--------------------------" << endl << endl;
 }
 
-void SearchEngine::searchByScore(vector <Video> vec, float s){
+void SearchEngine::searchByScore(vector <Video*> vec, float s){
   cout << "--------RESULTS----------" << endl;
   for (int u=0; u<vec.size(); u++) {
-    if (vec[u].getScore()>=s)
-      cout << vec[u] << endl;
+    if (vec[u]->getScore()>=s)
+      cout << *vec[u] << endl;
   }
   cout << "--------------------------" << endl << endl;
 }

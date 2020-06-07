@@ -15,7 +15,9 @@ class Movie : public Video{
 public:
   Movie(int, string, string, string, float);
   Movie();
-
+  void setScoree(float);
+  void rate(float);
+  Movie* getThis();
 };
 
 Movie::Movie(int id, string na, string dura, string gen, float sc){
@@ -27,4 +29,16 @@ Movie::Movie(int id, string na, string dura, string gen, float sc){
 }
 Movie::Movie(){
   ID = 0;
-};
+}
+
+void Movie::setScoree(float s){
+  score = s;
+}
+
+void Movie::rate(float l){
+  setScoree((score*4+l)/5);
+}
+
+Movie* Movie::getThis(){
+  return this;
+}

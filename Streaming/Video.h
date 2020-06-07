@@ -22,6 +22,7 @@ public:
   int getID();
   int getScore();
   string getGenre();
+  virtual void rate(float)=0;
   friend ostream& operator <<(ostream& os, const Video& v){
     os << "ID: " << v.ID << endl << "Title: " << v.name << endl
     << "Genre: " << v.genre << endl << "Duration: " << v.duration

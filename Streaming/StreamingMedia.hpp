@@ -228,7 +228,7 @@ void StreamingMedia::scoring(){
         cout << "ID not found" << endl;
       }
     }
-    if (listOfContent[val].getMovie().getID()==stoi(val)){
+    if (listOfContent[val].getMovie().getID()==val){
       cout << "Enter your rating: ";
       cin >> rate;
       listOfContent[val].getMovie().rate(stof(rate));

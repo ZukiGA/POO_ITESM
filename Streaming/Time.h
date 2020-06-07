@@ -14,6 +14,7 @@ class Time{
 public:
   Time(int, int);
   friend ostream& operator <<(ostream& os, const Time& tm);
+  friend Time operator + (const string& str);
 };
 
 Time::Time(int h, int m){
@@ -32,4 +33,9 @@ ostream& operator<<(ostream& os, const Time& tm) {
     os << tm.hours << ':' << '0' << tm.minutes;
   else
     os << tm.hours << ':' << tm.minutes;
+}
+
+Time operator + (const string& str){
+  size_t d=str.find(':');
+  
 }

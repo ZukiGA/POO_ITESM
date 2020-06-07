@@ -16,7 +16,7 @@ class Serie{
 private:
   int ID;
   float score;
-  string name, duration, genre;
+  string name, genre;
   vector <Episode> episodes;
 public:
   Serie();
@@ -24,7 +24,9 @@ public:
   void setEpisode(Episode*);
   int getID();
   vector <Episode> getEpisode();
+  void setScore();
   friend ostream& operator <<(ostream& os, const Serie& s);
+
 };
 
 Serie::Serie(){
@@ -36,13 +38,13 @@ Serie::Serie(int id, string na, string gen, float sc){
   name = na;
   genre = gen;
   score = sc;
-  duration = "";
 };
 
 void Serie::setEpisode(Episode *E){
   E->setID(ID);
   E->setGenre(genre);
   episodes.push_back(*E);
+  setScore();
 }
 vector <Episode> Serie::getEpisode(){
   return episodes;
@@ -52,9 +54,16 @@ int Serie::getID(){
   return ID;
 }
 
+void Serie::setScore(){
+  int sum = 0;
+  for (int i=0; i<episodes.size(); i++){
+    sum = sum+episodes[i].getScore();
+  }
+  this->score = (score+sum)/episodes.size();
+}
+
 ostream& operator<<(ostream& os, const Serie& s) {
   os << "ID: " << s.ID << endl << "Name: " << s.name << endl
-  << "Genre: " << s.genre << endl << "Duration: " << s.duration
-  << endl << "Score: " << s.score << endl;
+  << "Genre: " << s.genre << endl << "Score: " << s.score << endl;
 
 }

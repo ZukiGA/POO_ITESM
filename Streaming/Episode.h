@@ -20,6 +20,8 @@ public:
   Episode();
   void setID(int);
   void setGenre(string);
+  float getScore();
+  string getID();
   friend ostream& operator <<(ostream& os, const Episode& e);
 };
 
@@ -39,6 +41,14 @@ void Episode::setID(int ii){
 void Episode::setGenre(string ge){
   genre = ge;
 }
+
+float Episode::getScore(){
+  return score;
+};
+
+string Episode::getID(){
+  return IDChapter;
+};
 
 ostream& operator<<(ostream& os, const Episode& e) {
   os << "ID: " << e.IDChapter << endl << "Name: " << e.name << endl

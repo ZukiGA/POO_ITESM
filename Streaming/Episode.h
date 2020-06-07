@@ -20,7 +20,6 @@ public:
   Episode();
   void setID(int);
   void setGenre(string);
-  void setScore(float);
   float getScore();
   string getID();
   void rate(float);
@@ -43,9 +42,6 @@ void Episode::setID(int ii){
 void Episode::setGenre(string ge){
   genre = ge;
 }
-void Episode::setScore(float se){
-  score = se;
-}
 
 float Episode::getScore(){
   return score;
@@ -56,8 +52,8 @@ string Episode::getID(){
 }
 
 void Episode::rate(float l){
-  setScore((score*5+l)/6);
-  cout << score;
+  this->setScore((score*5+l)/6);
+
 }
 
 ostream& operator<<(ostream& os, const Episode& e) {

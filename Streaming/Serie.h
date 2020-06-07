@@ -25,6 +25,7 @@ public:
   int getID();
   vector <Episode> getEpisode();
   void setScore();
+  void modifyScore(float, int);
   friend ostream& operator <<(ostream& os, const Serie& s);
 
 };
@@ -46,6 +47,7 @@ void Serie::setEpisode(Episode *E){
   episodes.push_back(*E);
   setScore();
 }
+
 vector <Episode> Serie::getEpisode(){
   return episodes;
 }
@@ -55,11 +57,16 @@ int Serie::getID(){
 }
 
 void Serie::setScore(){
-  int sum = 0;
+  float sum = 0;
   for (int i=0; i<episodes.size(); i++){
     sum = sum+episodes[i].getScore();
   }
   this->score = (score+sum)/episodes.size();
+}
+
+void Serie::modifyScore(float rate, int nEpisode){
+  episodes[nEpisode].rate(rate);
+  setScore();
 }
 
 ostream& operator<<(ostream& os, const Serie& s) {

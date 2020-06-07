@@ -19,6 +19,7 @@ protected:
 public:
   Video(int, string, string, string, float);
   Video();
+  void setScore(float);
   int getID();
   int getScore();
   string getGenre();
@@ -41,6 +42,10 @@ Video::Video(int id, string na, string dura, string gen, float sc){
 Video::Video(){
   ID = 0;
 };
+
+void Video::setScore(float s){
+  score = s;
+}
 
 int Video::getID(){
   return ID;

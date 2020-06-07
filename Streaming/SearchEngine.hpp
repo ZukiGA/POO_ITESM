@@ -14,6 +14,7 @@ private:
   unordered_map <int, Multimedia> catalogue;
 public:
   SearchEngine(unordered_map <int, Multimedia>);
+  ~SearchEngine();
   void searchBy();
   void sort(string, string);
   void call(float, string);
@@ -29,6 +30,9 @@ public:
 
 SearchEngine::SearchEngine(unordered_map <int, Multimedia> lis){
   catalogue = lis;
+}
+SearchEngine::~SearchEngine(){
+
 }
 
 void SearchEngine::searchBy(){

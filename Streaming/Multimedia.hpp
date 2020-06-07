@@ -24,6 +24,8 @@ public:
   void saveEpisode(Episode*);
   Movie getMovie();
   Serie getSerie();
+  void rateContent(string, int);
+  void rateContent(string);
 };
 
 Multimedia::Multimedia(){
@@ -48,4 +50,12 @@ Movie Multimedia::getMovie(){
 
 Serie Multimedia::getSerie(){
   return S;
+}
+
+void Multimedia::rateContent(string ra,int w){
+      S.modifyScore(stof(ra),w);
+}
+
+void Multimedia::rateContent(string ra){
+      M.rate(stof(ra));
 }

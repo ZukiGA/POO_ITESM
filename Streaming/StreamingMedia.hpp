@@ -31,6 +31,7 @@ StreamingMedia::StreamingMedia(){
 
 }
 
+
 void StreamingMedia::on(){
 	int userChoose = 0;
 
@@ -141,7 +142,7 @@ void StreamingMedia::loadInfo(){
           			Multimedia M(S);
           			pastmp = stoi(f1[h-1]);
           			listOfContent[pastmp] = M;
-
+                delete S;
           			//cout << listOfContent[stoi(f1[h-1])].getSerie() << endl;;
 
         		} else if (f1.size()>2&&f1[h-2]==f1[h-1]){
@@ -149,6 +150,7 @@ void StreamingMedia::loadInfo(){
 					      g = g+1;
         		  	Episode *E = new Episode(f2[h-1], f3[h-1], f4[h-1], stof(f5[h-1]), stoi(compiled[g+numberOfMultimediaInFile*5]));
         		  	listOfContent[pastmp].saveEpisode(E);
+                delete E;
         		  	//cout << listOfContent[stoi(f1[h-1])].getSerie().getEpisode();
 
         		} else {
@@ -156,12 +158,12 @@ void StreamingMedia::loadInfo(){
 		        	Movie *P = new Movie(stoi(f1[h-1]), f2[h-1], f3[h-1], f4[h-1], stof(f5[h-1]));
 		        	Multimedia M(P);
 		        	listOfContent[stoi(f1[h-1])] = M;
+              delete P;
 		        	//cout << listOfContent[stoi(f1[h-1])].getMovie() << endl;;
 
         		}
 
 			}
-
         	//cout << f1.size() << f2.size() << f3.size() << f5.size();
 			cout << "--- DATA LOADED ---" << endl;
 	}
@@ -208,6 +210,7 @@ void StreamingMedia::search(){
 	string filter = "", content = "", serieChosen = "", minimumScore = "";
 	SearchEngine filters(listOfContent);
   filters.searchBy();
+  filters.~SearchEngine();
 };
 
 void StreamingMedia::scoring(){
@@ -222,19 +225,19 @@ void StreamingMedia::scoring(){
     cin >> n;
 
     for (auto k : listOfContent){
-      if (k.first==stoi(n)){
+      if (k.first==stoi(n))
         val = k.first;
-      } else{
-        cout << "ID not found" << endl;
-      }
     }
+
     if (listOfContent[val].getMovie().getID()==val){
       cout << "Enter your rating: ";
       cin >> rate;
-      listOfContent[val].getMovie().rate(stof(rate));
+      listOfContent[val].rateContent(rate);
       cout << "-------------DONE--------------" << endl;
       cout << listOfContent[val].getMovie() << endl;
       cout << "-------------------------------" << endl;
+    } else{
+      cout << "ID not found" << endl;
     }
 
   } else {
@@ -242,32 +245,32 @@ void StreamingMedia::scoring(){
     cout << "Enter the ID of the serie: " << endl;
     cin >> n;
     for (auto k : listOfContent){
-      if (k.first==stoi(n)){
+      if (k.first==stoi(n))
         val = k.first;
-      } else{
-        cout << "ID not found" << endl;
+    }
+    if (listOfContent[val].getSerie().getID()==val){
+        for (int q=0; q<listOfContent[val].getSerie().getEpisode().size(); q++){
+          cout << listOfContent[val].getSerie().getEpisode()[q] << endl;
+        }
+        cout << "Enter the ID of the episode: " << endl;
+        cin >> n;
+        int w=0;
+        while (listOfContent[val].getSerie().getEpisode()[w].getID()!=n){
+          w = w+1;
+        }
+        if (listOfContent[val].getSerie().getEpisode()[w].getID()==n){
+          cout << "Enter your rating: ";
+          cin >> rate;
+          listOfContent[val].rateContent(rate,w);
+          cout << listOfContent[val].getSerie().getEpisode()[w].getScore();
+          cout << "-------------DONE--------------" << endl;
+          cout << listOfContent[val].getSerie().getEpisode()[w] << endl;
+          cout << "-------------------------------" << endl;
+        } else {
+          cout << "ID not found" << endl;
+        }
+      }  else{
+       cout << "ID not found" << endl;
       }
-
     }
-    for (int q=0; q<listOfContent[val].getSerie().getEpisode().size(); q++){
-      cout << listOfContent[val].getSerie().getEpisode()[q] << endl;
-    }
-    cout << "Enter the ID of the episode: " << endl;
-    cin >> n;
-    int w=0;
-    while (listOfContent[val].getSerie().getEpisode()[w].getID()!=n){
-      w = w+1;
-    }
-    if (listOfContent[val].getSerie().getEpisode()[w].getID()==n){
-      cout << "Enter your rating: ";
-      cin >> rate;
-      listOfContent[val].getSerie().getEpisode()[w].rate(stof(rate));
-      cout << listOfContent[val].getSerie().getEpisode()[w].getScore();
-      cout << "-------------DONE--------------" << endl;
-      cout << listOfContent[val].getSerie().getEpisode()[w] << endl;
-      cout << "-------------------------------" << endl;
-    } else {
-      cout << "ID not found" << endl;
-    }
-  }
 }

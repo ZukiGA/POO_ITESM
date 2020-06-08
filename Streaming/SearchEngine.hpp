@@ -74,9 +74,9 @@ void SearchEngine::sort(string filter,string value){
   unordered_set <string> op7={"1","2", "3"};
   content = validateEntrys(op7,content);
   if (filter=="1"){
-    searchByGenre(stof(value),content);
+    searchByScore(stof(value),content);
   } else {
-    searchByScore(value,content);
+    searchByGenre(value,content);
   }
 }
 

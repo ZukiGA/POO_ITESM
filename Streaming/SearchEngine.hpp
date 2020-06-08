@@ -18,10 +18,9 @@ public:
   ~SearchEngine();
   void searchBy();
   void sort(string, string);
-  void call(float, string);
-  void call(string, string);
+  void searchByScore(float, string);
+  void searchByGenre(string, string);
   string validateEntrys(unordered_set <string>, string);
-  bool isFloat(string);
 };
 
 SearchEngine::SearchEngine(){
@@ -75,13 +74,13 @@ void SearchEngine::sort(string filter,string value){
   unordered_set <string> op7={"1","2", "3"};
   content = validateEntrys(op7,content);
   if (filter=="1"){
-    call(stof(value),content);
+    searchByGenre(stof(value),content);
   } else {
-    call(value,content);
+    searchByScore(value,content);
   }
 }
 
-void SearchEngine::call(float v, string c){
+void SearchEngine::searchByScore(float v, string c){
 
   string number = "";
   if (c=="1"){
@@ -132,7 +131,7 @@ void SearchEngine::call(float v, string c){
   }
 }
 
-void SearchEngine::call(string v, string c){
+void SearchEngine::searchByGenre(string v, string c){
   string number = "";
   if (c=="1"){
     for (auto k : catalogue) {

@@ -21,7 +21,7 @@ public:
   Video();
   void setScore(float);
   int getID();
-  int getScore();
+  float getScore();
   string getGenre();
   string getName();
   virtual void rate(float)=0;
@@ -52,7 +52,7 @@ int Video::getID(){
   return ID;
 }
 
-int Video::getScore(){
+float Video::getScore(){
   return score;
 }
 

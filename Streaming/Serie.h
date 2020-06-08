@@ -24,6 +24,7 @@ public:
   void setEpisode(Episode*);
   int getID();
   vector <Episode> getEpisode();
+  string getName();
   void setScore();
   void modifyScore(float, int);
   friend ostream& operator <<(ostream& os, const Serie& s);
@@ -32,6 +33,7 @@ public:
 
 Serie::Serie(){
   ID = 0;
+  name = "ff";
 };
 
 Serie::Serie(int id, string na, string gen, float sc){
@@ -54,6 +56,10 @@ vector <Episode> Serie::getEpisode(){
 
 int Serie::getID(){
   return ID;
+}
+
+string Serie::getName(){
+  return name;
 }
 
 void Serie::setScore(){

@@ -2,13 +2,13 @@
 Author: Bryan González Arellano
 ID : A01734198
 Creation date: 06/04/20
-Modification date: 07/04/20
+Modification date: 08/04/20
 File: SearchEngine.hpp
 */
 #include <bits/stdc++.h>
 
 using namespace std;
-
+//CLASS
 class SearchEngine {
 private:
   unordered_map <int, Multimedia> catalogue;
@@ -39,7 +39,7 @@ string SearchEngine::validateEntrys(unordered_set <string>options, string str){
   //UNTIL THE USER INTRODUCES A VALID OPTION, THE LOOP WILL STOP
   while (check == options.end()) {
     cout << "Invalid option. Choose one valid option." << endl;
-    cin >> str;
+    getline(cin,str);
     check = find(begin(options),end(options),str);
   }
   return str;

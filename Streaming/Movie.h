@@ -28,6 +28,7 @@ Movie::Movie(int id, string na, string dura, string gen, float sc){
 }
 Movie::Movie(){
   ID = 0;
+  name = "ff";
 }
 
 void Movie::rate(float l){

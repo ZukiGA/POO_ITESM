@@ -12,12 +12,16 @@ Modification date: 06/04/20
 
 using namespace std;
 
-
+//MAIN
 int main() {
+	//INSTANCE
 	StreamingMedia myStreamingMedia;
+	//TURNING ON
 	myStreamingMedia.on();
+	//TURNING OFF
 	myStreamingMedia.off();
+	//CALLING TO DESTRUCTOR
 	myStreamingMedia.~StreamingMedia();
+	
 	return 0;
-	//chck
 }

@@ -16,6 +16,7 @@ class StreamingMedia {
  	unordered_map <int, Multimedia> listOfContent;
 public:
 	StreamingMedia();
+  ~StreamingMedia();
 	void on();
 	void off();
 	int mainMenu();
@@ -25,9 +26,14 @@ public:
 	void showEverything();
 	void search();
   void scoring();
+
 };
 
 StreamingMedia::StreamingMedia(){
+
+}
+
+StreamingMedia::~StreamingMedia(){
 
 }
 
@@ -76,15 +82,17 @@ void StreamingMedia::off(){
 }
 
 int StreamingMedia::mainMenu(){
-	int choose = 0;
+	string choose = "0";
 
 	cout << endl << "-----MENU-----" << endl << "Choose one of the next options:" << endl << "1. Load file"
 	<< endl << "2. Show all the content" << endl << "3. Show only series" << endl << "4. Show only movies"
 	<< endl << "5. Filter a search (Score, Genre)" << endl << "6. Rate a video" << endl << "0. Exit" << endl;
-
-	cin >> choose;
-
-	return choose;
+  cin >> choose;
+	unordered_set <string> options={"0","1","2","3","4","5","6"};
+  SearchEngine Se;
+  choose=Se.validateEntrys(options,choose);
+  Se.~SearchEngine();
+	return stoi(choose);
 }
 
 void StreamingMedia::loadInfo(){
@@ -96,7 +104,7 @@ void StreamingMedia::loadInfo(){
 	cout << "What is the name of the file?" << endl;
 	cin >> fileName;
 
-	//If the user don't add the .txt, this line appends it.
+	//If the user don"t add the .txt, this line appends it.
 	size_t sIterador = fileName.find(".txt");
 
 	if (sIterador == string::npos)
@@ -112,7 +120,7 @@ void StreamingMedia::loadInfo(){
 
 			while (getline(multimediaFile, line)) {
 
-				//All the lines are saved, except the one which doesn't have anything
+				//All the lines are saved, except the one which doesn"t have anything
 				if (line.size()!=0)
 						compiled.push_back(line);
 				}
@@ -207,31 +215,56 @@ void StreamingMedia::showEverything(){
 }
 
 void StreamingMedia::search(){
-	string filter = "", content = "", serieChosen = "", minimumScore = "";
-	SearchEngine filters(listOfContent);
-  filters.searchBy();
-  filters.~SearchEngine();
+  if (listOfContent.size()>0){
+    string filter = "", content = "", serieChosen = "", minimumScore = "";
+  	SearchEngine filters(listOfContent);
+    filters.searchBy();
+    //filters.~SearchEngine();
+  }else{
+    cout << endl<<"Please, load a file" << endl;
+  }
+
 };
 
 void StreamingMedia::scoring(){
   string option, n, rate;
   int val;
-  cout << "Choose one option: " << endl << "1. Rate a movie"
-  << endl << "2. Rate an episode" << endl;
-  cin >> option;
+  if (listOfContent.size()>0){
+    cout << "Choose one option: " << endl << "1. Rate a movie"
+    << endl << "2. Rate an episode" << endl;
+    cin >> option;
+    unordered_set <string> op2={"1","2"};
+    SearchEngine Se;
+    option = Se.validateEntrys(op2,option);
+    Se.~SearchEngine();
+  } else{
+    cout << endl<<"Please, load a file" << endl;
+  }
+
   if (option =="1"){
     showMovies();
     cout << "Enter the ID of a movie: " << endl;
     cin >> n;
-
+    unordered_set <string> op3;
+    for (auto k : listOfContent){
+      op3.insert(to_string(k.first));
+    }
+    SearchEngine Se;
+    n = Se.validateEntrys(op3,n);
+    Se.~SearchEngine();
     for (auto k : listOfContent){
       if (k.first==stoi(n))
         val = k.first;
     }
 
     if (listOfContent[val].getMovie().getID()==val){
-      cout << "Enter your rating: ";
+      string test = "";
+      cout << "Enter your rating (0-5): ";
       cin >> rate;
+      SearchEngine Se;
+      unordered_set <string> rates = {"0","1","2","3","4","5"};
+      rate = Se.validateEntrys(rates,rate);
+      Se.~SearchEngine();
       listOfContent[val].rateContent(rate);
       cout << "-------------DONE--------------" << endl;
       cout << listOfContent[val].getMovie() << endl;
@@ -240,27 +273,43 @@ void StreamingMedia::scoring(){
       cout << "ID not found" << endl;
     }
 
-  } else {
+  } else if (option == "2") {
     showSeries(0);
     cout << "Enter the ID of the serie: " << endl;
     cin >> n;
+    unordered_set <string> op4;
+    for (auto k : listOfContent){
+      op4.insert(to_string(k.first));
+    }
+    SearchEngine Se;
+    n = Se.validateEntrys(op4,n);
+    Se.~SearchEngine();
     for (auto k : listOfContent){
       if (k.first==stoi(n))
         val = k.first;
     }
     if (listOfContent[val].getSerie().getID()==val){
+        unordered_set <string> op5;
         for (int q=0; q<listOfContent[val].getSerie().getEpisode().size(); q++){
+          op5.insert(listOfContent[val].getSerie().getEpisode()[q].getID());
           cout << listOfContent[val].getSerie().getEpisode()[q] << endl;
         }
         cout << "Enter the ID of the episode: " << endl;
         cin >> n;
+        SearchEngine Se;
+        n = Se.validateEntrys(op5,n);
+        Se.~SearchEngine();
         int w=0;
         while (listOfContent[val].getSerie().getEpisode()[w].getID()!=n){
           w = w+1;
         }
         if (listOfContent[val].getSerie().getEpisode()[w].getID()==n){
-          cout << "Enter your rating: ";
+          cout << "Enter your rating (0-5): ";
           cin >> rate;
+          SearchEngine Se;
+          unordered_set <string> rates = {"0","1","2","3","4","5"};
+          rate = Se.validateEntrys(rates,rate);
+          Se.~SearchEngine();
           listOfContent[val].rateContent(rate,w);
           cout << listOfContent[val].getSerie().getEpisode()[w].getScore();
           cout << "-------------DONE--------------" << endl;

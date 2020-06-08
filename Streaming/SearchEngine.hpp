@@ -19,12 +19,6 @@ public:
   void sort(string, string);
   void call(float, string);
   void call(string, string);
-  vector <Video*> searchMovie();
-  vector <Video*> searchEpisode();
-  vector <Video*> searchEpisode(string);
-  vector <Video*>  searchVideo();
-  void searchByGenre(vector <Video*>, string);
-  void searchByScore(vector <Video*>, float);
 };
 
 
@@ -64,10 +58,13 @@ void SearchEngine::sort(string filter,string value){
 }
 
 void SearchEngine::call(float v, string c){
-  vector <Video*> vec;
+
   string number = "";
   if (c=="1"){
-    vec=searchMovie();
+    for (auto k : catalogue) {
+      if (k.second.getMovie().getScore()>=v)
+        cout << k.second.getMovie() << endl;
+    }
   } else if (c=="2"){
     int b = 0;
     for (auto k : catalogue){
@@ -77,85 +74,76 @@ void SearchEngine::call(float v, string c){
   			cout << k.second.getSerie() << endl;
       }
     }
-    cout << "Enter the number of the serie: ";
+    cout << "Enter the ID of the serie: ";
     cin >> number;
-    vec=searchEpisode(number);
-  } else {
-    vec=searchVideo();
-  }
-  searchByScore(vec,v);
-}
-
-void SearchEngine::call(string v, string c){
-  vector <Video*> vec;
-  if (c=="1"){
-    vec=searchMovie();
-  } else if (c=="2"){
-    vec=searchEpisode();
-  } else {
-    vec=searchVideo();
-  }
-  searchByGenre(vec,v);
-}
-
-vector <Video*> SearchEngine::searchMovie(){
-  vector<Video*> newList;
-  for (auto k : catalogue){
-    if (k.second.getSerie().getID()==0){
-      newList.push_back(k.second.getMovie().getThis());
+    int val =0;
+    for (auto k : catalogue){
+      if (k.first==stoi(number))
+        val = k.first;
     }
-  }
-  return newList;
-}
-
-vector <Video*> SearchEngine::searchEpisode(){
-  vector <Video*> newList;
-  for (auto k : catalogue){
-    if (k.second.getMovie().getID()==0){
-      for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
-        newList.push_back(&k.second.getSerie().getEpisode()[r]);
-    }
-  }
-  return newList;
-}
-
-vector <Video*> SearchEngine::searchEpisode(string n){
-  vector <Video*> newList;
-  int b = 0;
-  for (auto k : catalogue){
-    if (k.second.getMovie().getID()==0){
-      b = b+1;
-      if (b==stoi(n)){
-        for (int r=0; r<k.second.getSerie().getEpisode().size(); r++)
-          newList.push_back(&k.second.getSerie().getEpisode()[r]);
+    if (catalogue[val].getSerie().getID()==stoi(number)){
+        for (int q=0; q<catalogue[val].getSerie().getEpisode().size(); q++){
+          if (catalogue[val].getSerie().getEpisode()[q].getScore()>=v)
+            cout << catalogue[val].getSerie().getEpisode()[q] << endl;
+        }
+      }  else{
+       cout << "ID not found" << endl;
+      }
+  } else {
+    for (auto k : catalogue) {
+      if (k.second.getSerie().getID()==0&&k.second.getMovie().getScore()>=v){
+        cout << k.second.getMovie() << endl;
+      } else if (k.second.getMovie().getID()==0){
+        for (int f=0; f<k.second.getSerie().getEpisode().size(); f++){
+          if (k.second.getSerie().getEpisode()[f].getScore()>=v)
+            cout << k.second.getSerie().getEpisode()[f];
+        }
       }
     }
   }
-  return newList;
 }
 
-vector <Video*> SearchEngine::searchVideo(){
-  vector <Video*> newList = searchMovie();
-  vector <Video*> tmp = searchEpisode();
-  newList.insert(newList.end(), begin(tmp), end(tmp));
-  return newList;
-}
-
-
-void SearchEngine::searchByGenre(vector <Video*> vec, string s){
-  cout << "--------RESULTS----------" << endl;
-  for (int u=0; u<vec.size(); u++) {
-    if (vec[u]->getGenre()==s)
-      cout << *vec[u] << endl;
+void SearchEngine::call(string v, string c){
+  string number = "";
+  if (c=="1"){
+    for (auto k : catalogue) {
+      if (k.second.getMovie().getGenre()==v)
+        cout << endl << k.second.getMovie() << endl;
+    }
+  } else if (c=="2"){
+    int b = 0;
+    for (auto k : catalogue){
+  		if (k.second.getMovie().getID()==0){
+        b = b+1;
+       	cout << "----------Serie " << b << "----------" << endl;
+  			cout <<endl<< k.second.getSerie() << endl;
+      }
+    }
+    cout << "Enter the ID of the serie: ";
+    cin >> number;
+    int val =0;
+    for (auto k : catalogue){
+      if (k.first==stoi(number))
+        val = k.first;
+    }
+    if (catalogue[val].getSerie().getID()==stoi(number)){
+        for (int q=0; q<catalogue[val].getSerie().getEpisode().size(); q++){
+          if (catalogue[val].getSerie().getEpisode()[q].getGenre()==v)
+            cout << catalogue[val].getSerie().getEpisode()[q] << endl;
+        }
+      }  else{
+       cout << "ID not found" << endl;
+      }
+  } else {
+    for (auto k : catalogue) {
+      if (k.second.getSerie().getID()==0&&k.second.getMovie().getGenre()==v){
+        cout << endl << k.second.getMovie() << endl;
+      } else if (k.second.getMovie().getID()==0){
+        for (int f=0; f<k.second.getSerie().getEpisode().size(); f++){
+          if (k.second.getSerie().getEpisode()[f].getGenre()==v)
+            cout << endl << k.second.getSerie().getEpisode()[f] << endl;
+        }
+      }
+    }
   }
-  cout << "--------------------------" << endl << endl;
-}
-
-void SearchEngine::searchByScore(vector <Video*> vec, float s){
-  cout << "--------RESULTS----------" << endl;
-  for (int u=0; u<vec.size(); u++) {
-    if (vec[u]->getScore()>=s)
-      cout << *vec[u] << endl;
-  }
-  cout << "--------------------------" << endl << endl;
 }

@@ -7,6 +7,7 @@ File: snakes.cpp
 */
 #include <bits/stdc++.h>
 #include "GameTypes.hpp"
+#include "InvalidConfigurationException.h"
 
 using namespace std;
 //This is the main class of the game.
@@ -22,6 +23,7 @@ public:
   //METHODS
   void start();
   void main();
+  int validateIntegers(string, int);
 };
 //CONSTRUCTOR
 MyGame::MyGame() {
@@ -34,79 +36,135 @@ MyGame::MyGame() {
     gameType = 'M';
 }
 
+//METHOD THAT CALLS TO THE CLASS EXCEPTION. PARAMETERS ARE
+//VARIABLE AND LIMIT VALUE
+int MyGame::validateIntegers(string str, int limit  ){
+  int val = 2;
+  bool check = false;
+  cin.exceptions(istream::failbit);
+  do {
+    check = false;
+    try {
+      cin >> val;
+
+      if (val>1&&val<limit){
+        return val;
+      } else {
+        throw InvalidConfigurationException(str, val);
+      }
+
+    }
+    catch (std::exception const &e){
+      cout <<e.what() << endl;;
+      check = true;
+      exit(1);
+    }
+  } while (check);
+}
 //This method initialize the game by checking if the action of the user
 //is continuing the game or ending the game. It is a void method, so it
 //neither receives parameters nor returns something;
 void MyGame::start() {
-  //INSTRUCTIONS
-  cout << "Press C to start the game; O to open the settings, or E to end the game: " << endl;
-  cin >> action;
-  //Converting to upper to avoid problems
-  action = toupper(action);
-  //SEARCH FOR THE ACTION INTO THE ARRAY WITH THE OPTIONS
-  char* checkAction = find(begin(options),end(options),action);
-  //UNTIL THE USER INTRODUCES A VALID OPTION, THE LOOP WILL STOP
-  while (checkAction == end(options)) {
-    cout << "Invalid option, please press C to continue next turn or E to end the game" << endl;
-    cin >> action;
-    action = toupper(action);
-    checkAction = find(begin(options),end(options),action);
-  }
-
+  //VARIABLES
+  bool check = false;
   Manual M;
-  //BASED ON THE ACTION, THE GAME CONTINUES OR ENDS
-  if (action == 'C'){
-    M.continueGame();
-  } else if (action=='E') {
-    M.endGame(action);
-    //THIS OPEN THE OPTIONS TO SET THE GAME
-  }else if (action == 'O'){
-    main();
-  }
+  int i = 0;
+  //INSTRUCTIONS
+
+  cout << "Press C to start the game; O to open the settings, or E to end the game: " << endl;
+
+  do {
+
+    check = false;
+
+    try {
+
+      cin >> action;
+      //Converting to upper to avoid problems
+      action = toupper(action);
+
+      //BASED ON THE ACTION, THE GAME CONTINUES OR ENDS
+      if (action == 'C'){
+        M.continueGame();
+      } else if (action=='E') {
+        M.endGame(action);
+        //THIS OPEN THE OPTIONS TO SET THE GAME
+      } else if (action == 'O'){
+        main();
+      } else {
+        i = i+1;
+        throw InvalidOptionException("Invalid option, please press C to continue next turn, O to options or E to end the game");
+      }
+    }
+    catch ( std::exception const& e) {
+      cout << e.what() << endl;
+      check = true;
+      if (i == 5)
+        check = false;
+    }
+  } while (check);
+
+  M.endGame('F');
 }
 
 //This metod parametricize the game by asking for
 //specific data.
 void MyGame::main(){
-  int tiles, snakes, ladders, penalty, reward, players, turns;
-  cout << "Enter the number of tiles on the board: ";
-  cin >> tiles;
 
+  bool check = false;
+  int i = 0;
+  int tiles, snakes, ladders, penalty, reward, players, turns;
+  Manual m;
+
+  cout << "Enter the number of tiles on the board: ";
+  tiles = validateIntegers("tiles",1000);
   cout << "Enter the number of snakes: ";
-  cin >> snakes;
+  snakes = validateIntegers("snakes",tiles);
   cout << "Enter the number of ladders: ";
-  cin >> ladders;
-  cout << "How many tiles a player must go back when falling in a serpent?  ";
-  cin >> penalty;
+  ladders = validateIntegers("ladders",tiles-snakes);
+  cout << "How many tiles a player must go back when falling in a snake?  ";
+  penalty = validateIntegers("penalty",tiles);
   cout << "How many additional tiles a player must go on when falling in a ladder? ";
-  cin >> reward;
+  reward = validateIntegers("reward",tiles);
   cout << "Number of players: ";
-  cin >> players;
+  players = validateIntegers("players", 100);
 
   cout << "Number of turns: ";
-  cin >> turns;
+  turns = validateIntegers("turns",10000);
   cout << "Game Type (A for automatic or M for manual): " << endl;
-  cin >> gameType;
-  gameType = toupper(gameType);
-  //SEARCH FOR THE TYPE INTO THE ARRAY WITH THE OPTIONS
-  char* checkGameType = find(begin(gameTypeOptions),end(gameTypeOptions),gameType);
-  //UNTIL THE USER INTRODUCES A VALID OPTION, THE LOOP WILL STOP
-  while (checkGameType == end(gameTypeOptions)) {
-    cout << "Invalid option, please press A for automatic or M for manual mode" << endl;
-    cin >> gameType;
-    gameType = toupper(gameType);
-    checkGameType = find(begin(gameTypeOptions),end(gameTypeOptions),gameType);
-  }
-  //THE GAMEMODE IS OPEN BY THIS LINES OF CODE.
-  if (gameType=='A') {
-    //INITIALIZE AUTOMATIC MODE
-    Automatic A(tiles, snakes, ladders, penalty, reward, players, turns);
-    A.continueGame();
-  } else if (gameType='M'){
-    //INITIALIZE MANUAL MODE
-    Manual M(tiles, snakes, ladders, penalty, reward, players, turns);
-    M.continueGame();
-  }
+
+  //EXCEPTION HANDLE
+  do {
+    check = false;
+
+    try {
+
+      cin >> gameType;
+      gameType = toupper(gameType);
+
+      //THE GAMEMODE IS OPEN BY THIS LINES OF CODE.
+      if (gameType=='A') {
+        //INITIALIZE AUTOMATIC MODE
+        Automatic A(tiles, snakes, ladders, penalty, reward, players, turns);
+        A.continueGame();
+
+      } else if (gameType='M'){
+        //INITIALIZE MANUAL MODE
+        Manual M(tiles, snakes, ladders, penalty, reward, players, turns);
+        M.continueGame();
+
+      } else {
+        i = i+1;
+        throw InvalidOptionException("Invalid option, please press A for automatic or M for manual mode");
+      }
+    }
+    catch ( std::exception const& e) {
+      cout << e.what() << endl;
+      check = true;
+      if (i == 5)
+        m.endGame('F');
+    }
+  } while (check);
 }
 
 

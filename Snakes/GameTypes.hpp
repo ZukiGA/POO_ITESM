@@ -8,8 +8,9 @@ File: GameTypes.hpp
 
 // This program emulates the famous game "Snakes and ladders".
 #include <bits/stdc++.h>
+#include "InvalidOptionException.h"
 #include "Player.h"
-#include "Exception.h"
+
 
 using namespace std;
 //MANUAL TYPE
@@ -19,7 +20,6 @@ protected:
   int tiles, snakes, ladders, penalty, reward, players, turns;
   char action;
   int turn;
-  char options[2];
   unordered_map <int, Player> gamers;
   unordered_map <int, Tile*> board;
 public:
@@ -33,7 +33,6 @@ public:
   void endGame(int);
   void main();
   void makeBoard();
-  void validateTurns();
 };
 
 //CONSTRUCTOR
@@ -48,8 +47,6 @@ Manual::Manual(){
   action = 'C';
   turns = 20;
   turn = 0;
-  options[0]= 'E';
-  options[1]= 'C';
 
   gamers[1].setPlayerNumber(1);
   gamers[2].setPlayerNumber(2);
@@ -68,8 +65,6 @@ Manual::Manual(int t, int s, int l, int p, int r, int nP, int ts){
   action = 'C';
   turns = ts;
   turn = 0;
-  options[0]= 'E';
-  options[1]= 'C';
 
   for(int j=1; j<=players; j++){
     gamers[j].setPlayerNumber(j);
@@ -79,34 +74,6 @@ Manual::Manual(int t, int s, int l, int p, int r, int nP, int ts){
 
 }
 
-//This is a simple method that validaes the entrys of the
-//users by chechink if the element exists on a list.
-void Manual::validateTurns(){
-  cin >> action;
-  //Converting to upper to avoid problems
-  action = toupper(action);
-  //SEARCH FOR THE ACTION INTO THE ARRAY WITH THE OPTIONS
-  char* checkAction = find(begin(options),end(options),action);
-  //UNTIL THE USER INTRODUCES A VALID OPTION, THE LOOP WILL STOP
-  for (int i=0; i<5; i++){
-    if (action=!options[0]||action=!options[1]){
-      throw Exception("Invalid option, please press C to continue next turn or E to end the game");
-    } else if (i==4){
-      action = 'S';
-      endGame(action);
-    } if (action=='E') {
-      endGame(action);
-    }
-  }
-//  while (checkAction == end(options)) {
-//    cout <<  << endl;
-//    cin >> action;
-//    action = toupper(action);
-//    checkAction = find(begin(options),end(options),action);
-//  }
-  //IF THE USER INTRODUCES THE ACTION E, THEN THE GAME ENDS
-
-}
 
 //THIS METHOD MANAGE ALL THE GAME, BECAUSE IT CONNECTS WITH
 //THE INFORMATION OF THE PLAYERS, AND INCREASE THE TURN BY 1
@@ -114,6 +81,8 @@ void Manual::validateTurns(){
 void Manual::continueGame() {
   //VARIABLES
   string playerInformation = "";
+  bool check = false;
+  int i = 0;
 
   while (action=='C') {
     for (int g = 1; g<=gamers.size(); g++){
@@ -129,23 +98,32 @@ void Manual::continueGame() {
       } else if (turn>=turns) {
         endGame(action);
       }
-      //THE METHOD VALIDATES THE ENTRYS
+        //THE METHOD VALIDATES THE ENTRYS
+      do {
+        check = false;
 
-      try
-      {
-        validateTurns();
-      }
+        try {
 
-      catch( std::exception const& e)
-      {
-        std::cout << e.what() << '\n';
-        repetir = true;
-      }
-    } while( repetir );
+          cin >> action;
+          //Converting to upper to avoid problems
+          action = toupper(action);
 
+          if (action=='E') {
+            endGame(action);
+          } else if (action!='C'){
+            i = i+1;
+            throw InvalidOptionException("Invalid option, please press C to continue next turn or E to end the game");
+          }
+        }
+        catch ( std::exception const& e) {
+          cout << e.what() << endl;
+          check = true;
+          if (i == 5)
+            endGame('F');
+        }
+      } while (check);
     }
   }
-  //REPEATING THE PROCESS
 }
 
 
@@ -204,7 +182,6 @@ void Manual::makeBoard(){
     //ELEMENTS ARE ERASED FROM THE VECTOR.
     possibleTiles.erase(possibleTiles.begin()+randomTileChoise);
     }
-
 }
 
 //THE METHOD IS USED TO PRINT THE FINAL MESSAGES BASED ON SOME
@@ -219,7 +196,7 @@ void Manual::endGame(char action ) {
       cout << "The maximum number of turns has been reached" << endl;
     }
     cout << "Thanks for playing!!!" << endl;
-  } else if (action=='S'){
+  } else {
     cout << "Invalid menu choice exceeded" << endl;
   }
   //GAME OVER
